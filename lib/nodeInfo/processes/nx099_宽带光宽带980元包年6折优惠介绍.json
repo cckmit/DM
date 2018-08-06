@@ -1,0 +1,258 @@
+{
+	"name": "nx099_移动光宽带980元包年6折优惠介绍",
+	"onEnterAction": [{
+		"property": "broadcastReply",
+		"actionParams": ["false",
+		"nx099_lb"]
+	},
+	{
+		"property": "broadcastReply",
+		"actionParams": ["false",
+		"nx099_01"]
+	}],
+	"init_step": "isReListen1",
+	"steps": [{
+		"name": "isReListen1",
+		"property": "commandASRStep",
+		"noParamReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx09901_01"
+		},
+		"noMatch": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx09901nomatch1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx09901nomatch1"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx09901error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"noInput": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx09901timeout2"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx09901timeout2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx09901error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"commandList": ["重听",
+		"返回"],
+		"transitions": [{
+			"condition": "command=='重听'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["false",
+				"nx099_01"]
+			},
+			{
+				"property": "executeStepAction",
+				"actionName": "executeStep",
+				"actionParams": ["isReListen2"]
+			}]
+		},
+		{
+			"condition": "command=='返回'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionName": "mainMenu",
+				"actionParams": []
+			}]
+		}]
+	},
+	{
+		"name": "isReListen2",
+		"property": "commandASRStep",
+		"noParamReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx09901_01"
+		},
+		"noMatch": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx09901nomatch1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx09901nomatch1"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx09901error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"noInput": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx09901timeout2"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx09901timeout2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx09901error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"commandList": ["重听",
+		"返回"],
+		"transitions": [{
+			"condition": "command=='重听'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["false",
+				"nx099_01"]
+			},
+			{
+				"property": "executeStepAction",
+				"actionName": "executeStep",
+				"actionParams": ["isReListen3"]
+			}]
+		},
+		{
+			"condition": "command=='返回'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionName": "mainMenu",
+				"actionParams": []
+			}]
+		}]
+	},
+	{
+		"name": "isReListen3",
+		"property": "commandASRStep",
+		"noParamReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx09901_01"
+		},
+		"noMatch": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx09901nomatch1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx09901nomatch1"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx09901error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"noInput": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx09901timeout2"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx09901timeout2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx09901error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"commandList": ["重听",
+		"返回"],
+		"transitions": [{
+			"condition": "command=='重听'",
+			"actions": [
+			{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_busi_success"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionName": "mainMenu",
+				"actionParams": []
+			}]
+		},
+		{
+			"condition": "command=='返回'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionName": "mainMenu",
+				"actionParams": []
+			}]
+		}]
+	}]
+}

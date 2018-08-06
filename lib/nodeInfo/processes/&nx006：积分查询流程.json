@@ -1,0 +1,99 @@
+{
+  "name" : "&nx006：积分查询流程",
+  "onEnterAction": [
+    {
+      "actionParams": [
+        "false",
+        "nx006_lb"
+      ],
+      "property": "broadcastReply"
+    }
+  ],
+  "init_step" : "isHaveBPInfo",
+  "steps" : [ {
+    "property" : "APIStep",
+    "name" : "isHaveBPInfo",
+    "transitions" : [ {
+      "condition" : "isHaveBPInfo.是否存在记录 == false ",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx006_02" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isHaveBPInfo.是否存在记录 == true",
+      "actions" : [ {
+        "property" : "synthesisReply",
+        "actionParams" : [ "false", "您目前可兑换积分为$isHaveBPInfo.可用积分$。更多兑换选择请登录中国移动积分商城 jf.10086.cn,感谢您的使用！" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionParams" : [ "isStopService" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "jfcx",
+      "output" : [ "是否存在记录", "可用积分" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "isStopService",
+    "transitions" : [ {
+      "condition" : "isStopService.是否停机==true",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more1" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机==false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx006_01" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionParams" : [ "sendMess" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "tjpd",
+      "output" : [ "是否停机", "停机原因" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "sendMess",
+    "transitions" : [ ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "content" : "尊敬的客户,您好！截至目前您的可兑换积分为$isHaveBPInfo.可用积分$。更多兑换选择请登录中国移动积分商城 http://jf.10086.cn ,感谢您的使用！【中国移动】"
+      },
+      "functionName" : "dxxf",
+      "output" : [ ]
+    }
+  } ]
+}

@@ -1,0 +1,576 @@
+{
+  "root": {
+	"id": "root",
+	"reply": [{
+	  "interrupt": "true",
+	  "property": "broadcast",
+	  "content": "nx_start"
+	}],
+	"noMatch": [{
+	  "interrupt": "false",
+	  "property": "broadcast",
+	  "content": "nx_main_nomatch1"
+	},
+	  {
+		"interrupt": "false",
+		"property": "broadcast",
+		"content": "nx_main_nomatch2"
+	  },
+	  {
+		"interrupt": "false",
+		"property": "broadcast",
+		"content": "nx_main_error3"
+	  }],
+	"noInput": [{
+	  "interrupt": "false",
+	  "property": "broadcast",
+	  "content": "nx_main_timeout1"
+	},
+	  {
+		"interrupt": "false",
+		"property": "broadcast",
+		"content": "nx_main_timeout2"
+	  },
+	  {
+		"interrupt": "false",
+		"property": "broadcast",
+		"content": "nx_main_error3"
+	  }],
+	"subStateNode": [{
+	  "id": "话费查询",
+	  "reply": [{
+		"interrupt": "false",
+		"property": "synthesis",
+		"content": "好的，话费查询"
+	  }],
+	  "subStateNode": [],
+	  "query": "",
+	  "transitions": [],
+	  "params": [],
+	  "init_process": "&nx001：话费查询流程"
+	},
+	  {
+		"id": "账单查询",
+		"reply": [{
+		  "interrupt": "false",
+		  "property": "synthesis",
+		  "content": "好的，账单查询"
+		}],
+		"subStateNode": [],
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": "&nx005：账单查询流程"
+	  }],
+	"helpReply": {
+	  "interrupt": "true",
+	  "property": "broadcast",
+	  "content": "nx_help"
+	},
+	"query": "",
+	"transitions": [],
+	"params": [],
+	"init_process": ""
+  },
+  "processes": [{
+	"name": "&nx005：账单查询流程",
+	"init_step": "isHaveMonth1",
+	"steps": [{
+	  "property": "paramASRStep",
+	  "name": "isHaveMonth1",
+	  "bindParam": "month",
+	  "noParamReply":{
+		"interrupt": "false",
+		"property": "broadcast",
+		"content": "nx0050101a"
+	  },
+	  "noMatch": [{
+		"interrupt": "false",
+		"property": "broadcast",
+		"content": "nx00501nomatch1"
+	  },
+		{
+		  "interrupt": "false",
+		  "property": "broadcast",
+		  "content": "nx00501nomatch2"
+		},
+		{
+		  "interrupt": "false",
+		  "property": "broadcast",
+		  "content": "nx00501error3"
+		}],
+	  "noInput": [{
+		"interrupt": "false",
+		"property": "broadcast",
+		"content": "nx00501timeout1"
+	  },
+		{
+		  "interrupt": "false",
+		  "property": "broadcast",
+		  "content": "nx00501timeout2"
+		},
+		{
+		  "interrupt": "false",
+		  "property": "broadcast",
+		  "content": "nx00501error3"
+		}],
+	  "transitions": [{
+		"condition": "true",
+		"actions": [{
+		  "property": "executeStepAction",
+		  "actionName": "executeStep",
+		  "actionParams": ["isMonthInRange1"]
+		}]
+	  }]
+	},
+	  {
+		"property": "paramASRStep",
+		"name": "isHaveMonth2",
+		"bindParam": "month",
+		"noMatch": [{
+		  "interrupt": "false",
+		  "property": "broadcast",
+		  "content": "nx00501nomatch1"
+		},
+		  {
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx00501nomatch2"
+		  },
+		  {
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx00501error3"
+		  }],
+		"noInput": [{
+		  "interrupt": "false",
+		  "property": "broadcast",
+		  "content": "nx00501timeout1"
+		},
+		  {
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx00501timeout2"
+		  },
+		  {
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx00501error3"
+		  }],
+		"transitions": [{
+		  "condition": "true",
+		  "actions": [{
+			"property": "executeStepAction",
+			"actionName": "executeStep",
+			"actionParams": ["isMonthInRange2"]
+		  }]
+		}]
+	  },
+	  {
+		"property": "paramASRStep",
+		"name": "isHaveMonth3",
+		"bindParam": "month",
+		"noMatch": [{
+		  "interrupt": "false",
+		  "property": "broadcast",
+		  "content": "nx00501nomatch1"
+		},
+		  {
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx00501nomatch2"
+		  },
+		  {
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx00501error3"
+		  }],
+		"noInput": [{
+		  "interrupt": "false",
+		  "property": "broadcast",
+		  "content": "nx00501timeout1"
+		},
+		  {
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx00501timeout2"
+		  },
+		  {
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx00501error3"
+		  }],
+		"transitions": [{
+		  "condition": "true",
+		  "actions": [{
+			"property": "executeStepAction",
+			"actionName": "executeStep",
+			"actionParams": ["isMonthInRange3"]
+		  }]
+		}]
+	  },
+	  {
+		"name": "isMonthInRange1",
+		"property": "jsStep",
+		"script": "monthInRange = isMonthRange(month)",
+		"transitions": [{
+		  "condition": "monthInRange == false",
+		  "actions": [{
+			"property": "broadcastReply",
+			"actionParams": ["false",
+			  "nx0050101b"]
+		  },{
+			"property": "clearParamValue",
+			"actionParams": ["month"]
+		  },
+			{
+			  "property": "executeStepAction",
+			  "actionName": "executeStep",
+			  "actionParams": ["isHaveMonth2"]
+			}]
+		},
+		  {
+			"condition": "monthInRange == true",
+			"actions": [{
+			  "property": "executeStepAction",
+			  "actionName": "executeStep",
+			  "actionParams": ["isHaveBillInfo"]
+			}]
+		  }]
+	  },
+	  {
+		"name": "isMonthInRange2",
+		"property": "jsStep",
+		"script": "monthInRange = isMonthRange(month)",
+		"transitions": [{
+		  "condition": "monthInRange == false",
+		  "actions": [{
+			"property": "broadcastReply",
+			"actionParams": ["false",
+			  "nx0050101b"]
+		  },{
+			"property": "clearParamValue",
+			"actionParams": ["month"]
+		  },
+			{
+			  "property": "executeStepAction",
+			  "actionName": "executeStep",
+			  "actionParams": ["isHaveMonth3"]
+			}]
+		},
+		  {
+			"condition": "monthInRange == true",
+			"actions": [{
+			  "property": "executeStepAction",
+			  "actionName": "executeStep",
+			  "actionParams": ["isHaveBillInfo"]
+			}]
+		  }]
+	  },
+	  {
+		"name": "isMonthInRange3",
+		"property": "jsStep",
+		"script": "monthInRange = isMonthRange(month)",
+		"transitions": [{
+		  "condition": "monthInRange == false",
+		  "actions": [{
+			"property": "synthesisReply",
+			"actionParams": ["false",
+			  "抱歉输入错误次数过多，将跳到主菜单"]
+		  },{
+			"property": "clearParamValue",
+			"actionParams": ["month"]
+		  },
+			{
+			  "property": "backToMainMenu",
+			  "actionName": "mainMenu",
+			  "actionParams": []
+			}]
+		},
+		  {
+			"condition": "monthInRange == true",
+			"actions": [{
+			  "property": "executeStepAction",
+			  "actionName": "executeStep",
+			  "actionParams": ["isHaveBillInfo"]
+			}]
+		  }]
+	  },
+	  {
+		"name": "isHaveBillInfo",
+		"property": "APIStep",
+		"functionEntity": {
+		  "input": {
+			"tel": "$tel$",
+			"month": "$month$"
+		  },
+		  "functionName": "zdcx",
+		  "output": ["是否有账单信息",
+			"累计消费",
+			"套餐及固定费",
+			"语音通信费",
+			"上网费",
+			"短信/彩信费",
+			"增值业务费",
+			"代收业务费",
+			"其他费用",
+			"优惠减免"]
+		},
+		"transitions": [{
+		  "condition": "isHaveBillInfo.是否有账单信息==false",
+		  "actions": [{
+			"property": "broadcastReply",
+			"actionParams": ["false",
+			  "nx005_02"]
+		  },
+			{
+			  "property": "broadcastReply",
+			  "actionParams": ["true",
+				"nx_busi_fail"]
+			},
+			{
+			  "property": "backToMainMenu",
+			  "actionName": "mainMenu",
+			  "actionParams": []
+			}]
+		},
+		  {
+			"condition": "isHaveBillInfo.是否有账单信息==true",
+			"actions": [{
+			  "property": "synthesisReply",
+			  "actionParams": ["false",
+				"您$month$月账单为：累计消费$isHaveBillInfo.累计消费$元，其中套餐及固定费$isHaveBillInfo.套餐及固定费$元，语音通信费$isHaveBillInfo.语音通信费$元，上网费$isHaveBillInfo.上网费$元，增值业务费$isHaveBillInfo.增值业务费$元， 代收业务费$isHaveBillInfo.代收业务费$元，其他费用XX元，优惠减免$isHaveBillInfo.优惠减免$元。"]
+			},
+			  {
+				"property": "executeStepAction",
+				"actionName": "executeStep",
+				"actionParams": ["isStopService"]
+			  }]
+		  }]
+	  },
+	  {
+		"name": "isStopService",
+		"property": "APIStep",
+		"functionEntity": {
+		  "input": {"tel":"$tel$"},
+		  "functionName": "tjpd",
+		  "output": ["是否欠费停机"]
+		},
+		"transitions": [{
+		  "condition": "isStopService.是否停机 == true",
+		  "actions": [{
+			"property": "broadcastReply",
+			"actionParams": ["true",
+			  "nx_busi_sucess"]
+		  },
+			{
+			  "property": "backToMainMenu",
+			  "actionName": "mainMenu",
+			  "actionParams": []
+			}]
+		},
+		  {
+			"condition": "isStopService.是否停机 == false",
+			"actions": [{
+			  "property": "broadcastReply",
+			  "actionParams": ["false",
+				"nx005_01"]
+			},
+			  {
+				"property": "executeStepAction",
+				"actionName": "executeStep",
+				"actionParams": ["seedMseeage"]
+			  },
+			  {
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				  "nx_busi_sucess"]
+			  },
+			  {
+				"property": "backToMainMenu",
+				"actionName": "mainMenu",
+				"actionParams": []
+			  }]
+		  }]
+	  },
+	  {
+		"name": "seedMseeage",
+		"property": "APIStep",
+		"functionEntity": {
+		  "input": {
+			"tel": "$tel$",
+			"content":"尊敬的$tel$客户，您$month$月账单为：累计消费$isHaveBillInfo.累计消费$元，其中套餐及固定费$isHaveBillInfo.套餐及固定费$元，语音通信费$isHaveBillInfo.语音通信费$元，上网费$isHaveBillInfo.上网费$元，增值业务费$isHaveBillInfo.增值业务费$元， 代收业务费$isHaveBillInfo.代收业务费$元，其他费用XX元，优惠减免$isHaveBillInfo.优惠减免$元。10分满意源自我们的百分努力！"
+
+		  },
+		  "functionName": "ywnrfs",
+		  "output": []
+		}
+	  }]
+  },
+	{
+	  "name": "&nx001：话费查询流程",
+	  "init_step": "isHaveFeeInfo",
+	  "steps": [{
+		"name": "isHaveFeeInfo",
+		"property": "APIStep",
+		"functionEntity": {
+		  "input": {
+			"tel": "$tel$"
+		  },
+		  "functionName": "hfcx",
+		  "output": ["是否有话费信息",
+			"是否欠费",
+			"累计消费",
+			"话费余额"]
+		},
+		"transitions": [{
+		  "condition": "isHaveFeeInfo.是否有话费信息 == false ",
+		  "actions": [{
+			"property": "broadcastReply",
+			"actionParams": ["false",
+			  "nx001_01"]
+		  },
+			{
+			  "property": "broadcastReply",
+			  "actionParams": ["true",
+				"nx_busi_fail"]
+			},
+			{
+			  "property": "backToMainMenu",
+			  "actionName": "mainMenu",
+			  "actionParams": []
+			}]
+		},
+		  {
+			"condition": "isHaveFeeInfo.是否有话费信息 == true && isHaveFeeInfo.是否欠费 == false",
+			"actions": [{
+			  "property": "synthesisReply",
+			  "actionParams": ["false",
+				"您当月累计消费为$isHaveFeeInfo.累计消费,话费余额为$isHaveFeeInfo.话费余额$"]
+			},
+			  {
+				"property": "executeStepAction",
+				"actionName": "executeStep",
+				"actionParams": ["isStopService"]
+			  }]
+		  },
+		  {
+			"condition": "isHaveFeeInfo.是否有话费信息 == true && isHaveFeeInfo.是否欠费 == true",
+			"actions": [{
+			  "property": "synthesisReply",
+			  "actionParams": ["false",
+				"您当月累计消费为$isHaveFeeInfo.累计消费$,欠费$isHaveFeeInfo.话费余额$"]
+			},
+			  {
+				"property": "executeStepAction",
+				"actionName": "executeStep",
+				"actionParams": ["isStopService"]
+			  }]
+		  }]
+	  },
+		{
+		  "name": "isStopService",
+		  "property": "APIStep",
+		  "functionEntity": {
+			"input": {
+			  "tel": "$tel$"
+			},
+			"functionName": "tjpd",
+			"output": ["是否停机"]
+		  },
+		  "transitions": [{
+			"condition": "isStopService.是否停机 == true",
+			"actions": [{
+			  "property": "broadcastReply",
+			  "actionParams": ["true",
+				"nx_busi_sucess"]
+			},
+			  {
+				"property": "backToMainMenu",
+				"actionName": "mainMenu",
+				"actionParams": []
+			  }]
+		  },
+			{
+			  "condition": "isStopService.是否停机 == false",
+			  "actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["false",
+				  "nx001_02"]
+			  },
+				{
+				  "property": "executeStepAction",
+				  "actionName": "executeStep",
+				  "actionParams": ["sendMess"]
+				},
+				{
+				  "property": "broadcastReply",
+				  "actionParams": ["true",
+					"nx_busi_sucess"]
+				},
+				{
+				  "property": "backToMainMenu",
+				  "actionName": "mainMenu",
+				  "actionParams": []
+				}]
+			}]
+		},
+		{
+		  "name": "sendMess",
+		  "property": "APIStep",
+		  "functionEntity": {
+			"input": {
+			  "tel": "$tel$",
+			  "content": "您当月累计消费为$isHaveFeeInfo.累计消费$,话费余额为$isHaveFeeInfo.话费余额$"
+			},
+			"functionName": "dxxf",
+			"output": []
+		  }
+		}]
+	}],
+  "params": [{
+	"name": "tel",
+	"param_reply": "",
+	"param_query": "",
+	"param_query_params": [],
+	"defaultFunction": [],
+	"type": "",
+	"scope":"global"
+  },
+	{
+	  "name": "serviceTelephone",
+	  "param_reply": "",
+	  "param_query": "",
+	  "param_query_params": [],
+	  "defaultFunction": [],
+	  "type": "",
+	  "scope":"global"
+	},
+	{
+	  "name": "month",
+	  "param_reply": "",
+	  "param_query": "",
+	  "param_query_params": [],
+	  "defaultFunction": [],
+	  "type": "month",
+	  "scope":"global"
+	}],
+  "commands": [{
+	"name": "返回主菜单"
+  },
+	{
+	  "name": "重听"
+	},
+	{
+	  "name": "业务清单"
+	},
+	{
+	  "name": "转人工"
+	},
+	{
+	  "name": "挂机"
+	},
+	{
+	  "name": "帮助"
+	}]
+}

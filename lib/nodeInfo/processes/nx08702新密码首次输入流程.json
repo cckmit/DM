@@ -1,0 +1,91 @@
+{
+  "name" : "nx08702新密码首次输入流程",
+  "init_step" : "获取身份证号",
+  "steps" : [ {
+    "property" : "APIStep",
+    "name" : "获取身份证号",
+    "transitions" : [ {
+      "condition" : "true ",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionParams" : [ "新密码输入" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "sfzhq",
+      "output" : [ "身份证号" ]
+    }
+  }, {
+    "property" : "keypadStep",
+    "name" : "新密码输入",
+    "transitions" : [ {
+      "condition" : "new_password == '*' ",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "true",
+      "actions" : [ {
+        "property" : "executeProcessAction",
+        "actionParams" : [ "nx08703新密码二次确认流程" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "noMatch" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08702nomatch1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08702nomatch2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx08702error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "noInput" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08702timeout1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08702timeout2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx08702error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "jumpOut" : true,
+    "noParamReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx08702_01"
+    },
+    "checkParamJs" : "checkPassword(获取身份证号.身份证号,tel,new_password)",
+    "keypadInputParam" : "new_password"
+  } ]
+}

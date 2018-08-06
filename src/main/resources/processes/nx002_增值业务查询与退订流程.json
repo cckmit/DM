@@ -1,0 +1,173 @@
+{
+  "name" : "nx002_增值业务查询与退订流程",
+  "init_step" : "是否开通增值业务",
+  "steps" : [ {
+    "property" : "APIStep",
+    "name" : "是否开通增值业务",
+    "transitions" : [ {
+      "condition" : "是否开通增值业务.是否开通增值业务 == true ",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : null,
+        "actionParams" : [ "isStopService" ]
+      } ]
+    }, {
+      "condition" : "是否开通增值业务.是否开通增值业务 == false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx002_01" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "zzyw",
+      "output" : [ "是否开通增值业务", "smsContent" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "isStopService",
+    "transitions" : [ {
+      "condition" : "isStopService.是否停机 == false ",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : null,
+        "actionParams" : [ "isRealName" ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '欠费停机'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx901_02" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '主动报停'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx901_01" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '其他原因'",
+      "actions" : [ {
+        "property" : "synthesisReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "您好！您的手机由于$isStopService.其他原因之具体$原因！无法办理此业务！" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "tjpd",
+      "output" : [ "是否停机", "停机原因" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "isRealName",
+    "transitions" : [ {
+      "condition" : "isRealName.是否实名==false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx002_02" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isRealName.是否实名==true && 是否开通增值业务.smsContent != ''",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx002_03" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionName" : null,
+        "actionParams" : [ "sendMess" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_busi_success" ]
+      } ]
+    }, {
+      "condition" : "isRealName.是否实名==true && 是否开通增值业务.smsContent == ''",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx002_03" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_busi_success" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "smrz",
+      "output" : [ "是否实名" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "sendMess",
+    "transitions" : [ ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "content" : "$是否开通增值业务.smsContent$"
+      },
+      "functionName" : "dxxf",
+      "output" : [ ]
+    }
+  } ]
+}

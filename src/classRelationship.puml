@@ -1,0 +1,76 @@
+@startuml
+
+
+package DM <<Frame>>{
+    class ApiPost
+    class DialogManager{
+     class StateMachineWrapper
+
+    }
+
+    class ProcessThread extends Thread
+    class StateMachine
+}
+
+package exception <<Frame>>{
+    class BackToMainMenuException extends Exception
+    class BossException extends Exception
+    class NoMatchConditionException extends Exception
+    class PostTimeoutException extends Exception
+}
+
+package entities <<Frame>> {
+
+package entities.step <<Frame>>{
+    abstract class Step
+    class ApiParamEntity
+    class APIStep extends Step
+    class ASRStep extends Step
+    class CommandASRStep extends ASRStep
+    class jsStep extends Step
+    class KeypadStep extends ASRStep
+    class ParamASRStep extends ASRStep
+    class StepTransition
+
+}
+
+package entities.action <<Frame>>{
+    abstract class Action
+    class BackToMainMenu extends Action
+    class BackToServices extends Action
+    class BroadcastReplyAction extends Action
+    class ClearParamValue extends Action
+    class ExecuteProcessAction extends Action
+    class ExecuteStepAction extends Action
+    class JsAction extends Action
+    class SynthesisReplyAction extends Action
+    class TransitionAction extends Action
+}
+    class APIReturnEntity
+    abstract class BasicParam
+    class BindEntity
+    class Config
+    class ExceptionEntity
+    class FunctionEntity extends BasicParam
+    class Greeting
+    class JsonCommand
+    class NoMatchOrInput
+    class Param  extends BasicParam implements Serializable
+    class Process
+    class Reply
+    class SLUResult
+    class StateMachineModel
+    class StateNode
+    class SysAction
+    class Transition
+}
+
+
+
+
+
+SparkSQLSessionManager *--"1" SQLEventListener : contains
+HiveThriftServer2 --> SQLTab : create
+
+
+@enduml

@@ -1,0 +1,81 @@
+{
+	"name": "nx92手机号码确认",
+	"init_step": "passwordResetStep",
+	"steps": [{
+		"name": "passwordResetStep",
+		"property": "commandASRStep",
+		"noParamReply" : {
+      "interrupt" : "true",
+      "property" : "synthesis",
+      "content" : "您输入的号码为$mobileNumber$，正确请说“确认”，错误请说“返回”。"
+    },
+		"noMatch": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "synthesis",
+				"content": "不好意思，我没明白，您输入的号码为$mobileNumber$，正确请说“确认”，错误请说“返回”。"
+			},
+			{
+				"interrupt": "true",
+				"property": "synthesis",
+				"content": "不好意思，我没明白，您输入的号码为$mobileNumber$，正确请说“确认”，错误请说“返回”。"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx00902error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		},
+		"noInput": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "synthesis",
+				"content": "非常抱歉，我没有听到您的声音，您输入的号码为$mobileNumber$，正确请说“确认”，错误请说“返回”。"
+			},
+			{
+				"interrupt": "true",
+				"property": "synthesis",
+				"content": "非常抱歉，我没有听到您的声音，您输入的号码为$mobileNumber$，正确请说“确认”，错误请说“返回”。 "
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx00902error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		},
+		"commandList": ["确认",
+		"返回主菜单"],
+		"transitions": [{
+			"condition": "command=='确认'",
+			"actions": []
+		},
+		{
+			"condition": "command=='返回主菜单'",
+			"actions": [{
+				"property": "clearParamValue",
+				"actionParams": ["mobileNumber","command"]
+			},{
+				"property": "executeProcessAction",
+				"actionParams": ["nx91手机号码输入"]
+			}]
+		}]
+	}]
+}

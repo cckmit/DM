@@ -1,0 +1,1660 @@
+{
+	"id": "root",
+	"reply": [{
+		"interrupt": "true",
+		"property": "broadcast",
+		"content": "nx_start"
+	}],
+	"noMatch": {
+		"noMatchorinputlist": [{
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx_main_nomatch1"
+		},
+		{
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx_main_nomatch2"
+		},
+		{
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx_main_error3"
+		}],
+		"actionlist": [{
+			"property": "backToServices",
+			"actionParams": ["IVR MENU"]
+		}]
+	},
+	"noInput": {
+		"noMatchorinputlist": [{
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx_main_timeout1"
+		},
+		{
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx_main_timeout2"
+		},
+		{
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx_main_error3"
+		}],
+		"actionlist": [{
+			"property": "backToServices",
+			"actionParams": ["IVR MENU"]
+		}]
+	},
+	"subStateNode": [{
+		"id": "nx119_人工服务",
+		"reply": [],
+		"subStateNode": [],
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": "nx119_人工服务流程"
+	},
+	{
+		"id": "nx001_话费查询",
+		"reply": [{
+			"interrupt": "false",
+			"property": "synthesis",
+			"content": "好的,话费查询"
+		}],
+		"subStateNode": [],
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": "&nx001：话费查询流程"
+	},
+	{
+		"id": "nx005_账单查询",
+		"reply": [{
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx005_lb"
+		}],
+		"subStateNode": [],
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": "&nx005：账单查询流程"
+	},
+	{
+		"id": "nx020_最新优惠介绍",
+		"reListenReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx02001_01"
+		},
+		"helpReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx02001help"
+		},
+		"reply": [{
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx020_Ib"
+		},
+		{
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx02001_01"
+		}],
+		"noMatch": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx02001nomatch1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx02001nomatch2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx02001error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"noInput": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx02001timeout1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx02001timeout2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx02001error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"subStateNode": [{
+			"id": "nx021_流量畅爽包优惠介绍",
+			"reply": [{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx021_Ib"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx021_01"
+			}],
+			"subStateNode": [],
+			"query": "",
+			"transitions": [],
+			"params": [],
+			"init_process": "nx02101重听确认"
+		},
+		{
+			"id": "nx022_和包充值优惠介绍",
+			"reply": [{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx022_lb"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx022_01"
+			}],
+			"subStateNode": [],
+			"query": "",
+			"transitions": [],
+			"params": [],
+			"init_process": "nx02201重听确认"
+		},
+		{
+			"id": "nx023_其他优惠介绍",
+			"reply": [{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx023_lb"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx023_01"
+			}],
+			"subStateNode": [],
+			"query": "",
+			"transitions": [],
+			"params": [],
+			"init_process": "nx02301重听确认"
+		},
+		{
+			"id": "nx024_区内不限量套餐介绍",
+			"reply": [{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx024_Ib"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx024_01"
+			}],
+			"subStateNode": [],
+			"query": "",
+			"transitions": [],
+			"params": [],
+			"init_process": "nx02401重听确认"
+		}],
+		"helpReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx02001help"
+		},
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": ""
+	},
+	{
+		"id": "nx006_积分查询",
+		"reply": [{
+			"interrupt": "false",
+			"property": "synthesis",
+			"content": "好的,积分查询"
+		}],
+		"subStateNode": [],
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": "&nx006：积分查询流程"
+	},
+	{
+		"id": "nx028_套餐剩余查询",
+		"reply": [{
+			"interrupt": "false",
+			"property": "synthesis",
+			"content": "好的,套餐剩余查询"
+		}],
+		"subStateNode": [],
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": "&nx028：套餐剩余查询流程"
+	},
+	{
+		"id": "nx050_上网流量查询",
+		"reply": [{
+			"interrupt": "false",
+			"property": "synthesis",
+			"content": "好的,上网流量查询"
+		}],
+		"subStateNode": [],
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": "&nx050：上网流量查询流程"
+	},
+	{
+		"id": "nx029_基础套餐办理",
+		"reListenReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx02901_01"
+		},
+		"helpReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx02901help"
+		},
+		"reply": [{
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx029_lb"
+		},
+		{
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx02901_01"
+		}],
+		"noMatch": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx02901nomatch1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx02901nomatch2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx02901error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"noInput": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx02901timeout1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx02901timeout2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx02901error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"subStateNode": [{
+			"id": "nx039_4G上网套餐办理",
+			"reListenReply": {
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx03901_01"
+			},
+			"helpReply": {
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx03901help"
+			},
+			"reply": [{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx039_lb"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx03901_01"
+			}],
+			"noMatch": {
+				"noMatchorinputlist": [{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx03901nomatch1"
+				},
+				{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx03901nomatch2"
+				},
+				{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx039error"
+				}],
+				"actionlist": [{
+					"property": "broadcastReply",
+					"actionParams": ["true",
+					"nx_more"]
+				}]
+			},
+			"noInput": {
+				"noMatchorinputlist": [{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx03901timeout1"
+				},
+				{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx03901timeout2"
+				},
+				{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx039error"
+				}],
+				"actionlist": [{
+					"property": "broadcastReply",
+					"actionParams": ["true",
+					"nx_more"]
+				}]
+			},
+			"subStateNode": [{
+				"id": "nx040_4G上网套餐58元档",
+				"reply": [{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx040_lb"
+				}],
+				"subStateNode": [],
+				"query": "",
+				"transitions": [],
+				"params": [],
+				"init_process": "nx040_4G上网套餐58元档"
+			},
+			{
+				"id": "nx041_4G上网套餐88元档",
+				"reply": [{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx041_lb"
+				}],
+				"subStateNode": [],
+				"query": "",
+				"transitions": [],
+				"params": [],
+				"init_process": "nx041_4G上网套餐88元档"
+			}],
+			"query": "",
+			"transitions": [],
+			"params": [],
+			"init_process": ""
+		},
+		{
+			"id": "nx123_4G商旅套餐办理",
+			"reListenReply": {
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx12301_01"
+			},
+			"helpReply": {
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx12301help"
+			},
+			"reply": [{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx123_lb"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx12301_01"
+			}],
+			"noMatch": {
+				"noMatchorinputlist": [{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx12301nomatch1"
+				},
+				{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx12301nomatch2"
+				},
+				{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx123error3"
+				}],
+				"actionlist": [{
+					"property": "broadcastReply",
+					"actionParams": ["true",
+					"nx_more"]
+				}]
+			},
+			"noInput": {
+				"noMatchorinputlist": [{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx12301timeout1"
+				},
+				{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx12301timeout2"
+				},
+				{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx123error3"
+				}],
+				"actionlist": [{
+					"property": "broadcastReply",
+					"actionParams": ["true",
+					"nx_more"]
+				}]
+			},
+			"subStateNode": [{
+				"id": "nx045_4G商旅套餐58元档",
+				"reply": [{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx045_lb"
+				}],
+				"subStateNode": [],
+				"query": "",
+				"transitions": [],
+				"params": [],
+				"init_process": "nx045_4G商旅套餐58元档"
+			},
+			{
+				"id": "nx046_4G商旅套餐88元档",
+				"reply": [{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx046_lb"
+				}],
+				"subStateNode": [],
+				"query": "",
+				"transitions": [],
+				"params": [],
+				"init_process": "nx046_4G商旅套餐88元档"
+			}],
+			"query": "",
+			"transitions": [],
+			"params": [],
+			"init_process": ""
+		}],
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": ""
+	},
+	{
+		"id": "nx507_58元套餐",
+		"reply": [{
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx507_lb"
+		},
+		{
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50701_01"
+		}],
+		"conflictList": ["nx040_4G上网套餐58元档",
+		"nx045_4G商旅套餐58元档"],
+		"noMatch": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50701nomatch1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50701nomatch2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx50701error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"noInput": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50701timeout1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50701timeout2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx50701error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"subStateNode": [],
+		"helpReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50701help"
+		},
+		"reListenReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50701_01"
+		},
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": ""
+	},
+	{
+		"id": "nx508_88元套餐",
+		"reply": [{
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx508_lb"
+		},
+		{
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50801_01"
+		}],
+		"conflictList": ["nx041_4G上网套餐88元档",
+		"nx046_4G商旅套餐88元档"],
+		"noMatch": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50801nomatch1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50801nomatch2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx50801error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"noInput": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50801timeout1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50801timeout2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx50801error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"subStateNode": [],
+		"helpReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50801help"
+		},
+		"reListenReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50801_01"
+		},
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": ""
+	},
+	{
+		"id": "nx086_手机密码",
+		"reply": [{
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx086_lb"
+		}],
+		"subStateNode": [],
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": "nx08601手机密码选择"
+	},
+	{
+		"id": "nx08601_手机密码选择",
+		"reply": [{
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx0860101"
+		}],
+		"helpReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx08601help"
+		},
+		"reListenReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx0860101"
+		},
+		"noMatch": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx08601nomatch1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx08601nomatch2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx08601error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"noInput": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx08601timeout1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx08601timeout2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx08601error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"subStateNode": [{
+			"id": "nx088_手机密码重置",
+			"reply": [{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx088_lb"
+			}],
+			"subStateNode": [],
+			"query": "",
+			"transitions": [],
+			"params": [],
+			"init_process": "nx088_手机密码重置"
+		},
+		{
+			"id": "nx087_手机密码修改",
+			"reply": [{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx087_lb"
+			}],
+			"subStateNode": [],
+			"query": "",
+			"transitions": [],
+			"params": [],
+			"init_process": "nx087_手机密码修改"
+		}],
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": ""
+	},
+	{
+		"id": "nx503_20元300M",
+		"reply": [{
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx503_lb"
+		},
+		{
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50301_01"
+		}],
+		"conflictList": ["nx056_20元300M流量包",
+		"nx064_20元300M流量加油包"],
+		"noMatch": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50301nomatch1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50301nomatch2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx50301error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"noInput": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50301timeout1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50301timeout2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx50301error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"subStateNode": [],
+		"helpReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50301help"
+		},
+		"reListenReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50301_01"
+		},
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": ""
+	},
+	{
+		"id": "nx502_10元100M",
+		"reply": [{
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx502_lb"
+		},
+		{
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50201_01"
+		}],
+		"conflictList": ["nx055_10元100M流量包",
+		"nx063_10元100M流量加油包"],
+		"noMatch": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50201nomatch1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50201nomatch2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx50201error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"noInput": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50201timeout1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50201timeout2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx50201error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"subStateNode": [],
+		"helpReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50201help"
+		},
+		"reListenReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50201_01"
+		},
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": ""
+	},
+	{
+		"id": "nx504_30元流量",
+		"reply": [{
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx504_lb"
+		},
+		{
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50401_01"
+		}],
+		"conflictList": ["nx057_30元1G流量包",
+		"nx065_30元500M流量加油包"],
+		"noMatch": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50401nomatch1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50401nomatch2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx50401error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"noInput": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50401timeout1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50401timeout2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx50401error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"subStateNode": [],
+		"helpReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50401help"
+		},
+		"reListenReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50401_01"
+		},
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": ""
+	},
+	{
+		"id": "nx505_50元流量",
+		"reply": [{
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx505_lb"
+		},
+		{
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50501_01"
+		}],
+		"conflictList": ["nx058_50元2G流量包",
+		"nx066_50元1G流量加油包"],
+		"noMatch": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50501nomatch1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50501nomatch2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx50501error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"noInput": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50501timeout1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx50501timeout2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx50501error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			}]
+		},
+		"subStateNode": [],
+		"helpReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50501help"
+		},
+		"reListenReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx50501_01"
+		},
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": ""
+	},
+	{
+		"id": "nx002_增值业务查询与退订",
+		"reply": [{
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx002_lb"
+		}],
+		"subStateNode": [],
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": "nx002_增值业务查询与退订流程"
+	},
+	{
+		"id": "nx093_复机",
+		"reply": [{
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx093_lb"
+		}],
+		"subStateNode": [],
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": "nx093_复机流程"
+	},
+	{
+		"id": "nx090_停机",
+		"reply": [{
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx090_lb"
+		}],
+		"subStateNode": [],
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": "nx090_停机流程"
+	},
+	{
+		"id": "nx049_流量业务",
+		"reply": [{
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx049_lb"
+		},
+		{
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx04901_01"
+		}],
+		"reListenReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx04901_01"
+		},
+		"helpReply": {
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx04901help"
+		},
+		"noMatch": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx04901nomatch1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx04901nomatch2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx04901error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionName": "mainMenu",
+				"actionParams": []
+			}]
+		},
+		"noInput": {
+			"noMatchorinputlist": [{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx04901timeout1"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx04901timeout2"
+			},
+			{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx04901error3"
+			}],
+			"actionlist": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionName": "mainMenu",
+				"actionParams": []
+			}]
+		},
+		"subStateNode": [{
+			"id": "nx072_流量畅爽包取消",
+			"reply": [{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx072_lb"
+			}],
+			"query": "",
+			"transitions": [],
+			"params": [],
+			"init_process": "nx072：流量畅爽包取消流程"
+		},
+		{
+			"id": "nx067_流量畅爽包办理",
+			"reply": [{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx067_lb"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx06701_01"
+			}],
+			"noMatch": {
+				"noMatchorinputlist": [{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx06701nomatch1"
+				},
+				{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx06701nomatch2"
+				},
+				{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx06701error3"
+				}],
+				"actionlist": [{
+					"property": "broadcastReply",
+					"actionParams": ["true",
+					"nx_more"]
+				}]
+			},
+			"noInput": {
+				"noMatchorinputlist": [{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx06701timeout1"
+				},
+				{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx06701timeout2"
+				},
+				{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx06701error3"
+				}],
+				"actionlist": [{
+					"property": "broadcastReply",
+					"actionParams": ["true",
+					"nx_more"]
+				}]
+			},
+			"subStateNode": [{
+				"id": "nx068_10元1G区内流量畅爽包",
+				"reply": [{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx068_lb"
+				}],
+				"query": "",
+				"transitions": [],
+				"params": [],
+				"init_process": "10元1G区内流量畅爽包流程"
+			},
+			{
+				"id": "nx069_15元3G区内流量畅爽包",
+				"reply": [{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx069_lb"
+				}],
+				"query": "",
+				"transitions": [],
+				"params": [],
+				"init_process": "15元3G区内流量畅爽包流程"
+			},
+			{
+				"id": "nx070_25元5G区内流量畅爽包",
+				"reply": [{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx070_lb"
+				}],
+				"query": "",
+				"transitions": [],
+				"params": [],
+				"init_process": "25元5G区内流量畅爽包流程"
+			}],
+			"helpReply": {
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx067011help"
+			},
+			"reListenReply": {
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx06701_01"
+			},
+			"query": "",
+			"transitions": [],
+			"params": [],
+			"init_process": ""
+		},
+		{
+			"id": "nx051_上网功能开通",
+			"reply": [{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx051_lb"
+			}],
+			"subStateNode": [],
+			"query": "",
+			"transitions": [],
+			"params": [],
+			"init_process": "nx051上网功能开通"
+		},
+		{
+			"id": "nx052_上网功能取消",
+			"reply": [{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx052_lb"
+			}],
+			"subStateNode": [],
+			"query": "",
+			"transitions": [],
+			"params": [],
+			"init_process": "nx052上网功能取消"
+		},
+		{
+			"id": "nx053_上网流量办理",
+			"reply": [{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx053_lb"
+			}],
+			"helpReply": {
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx05301help"
+			},
+			"noMatch": {
+				"noMatchorinputlist": [{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx05301nomatch1"
+				},
+				{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx05301nomatch2"
+				},
+				{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx05301error3"
+				}],
+				"actionlist": [{
+					"property": "broadcastReply",
+					"actionParams": ["true",
+					"nx_more"]
+				},
+				{
+					"property": "backToMainMenu",
+					"actionName": "mainMenu",
+					"actionParams": []
+				}]
+			},
+			"noInput": {
+				"noMatchorinputlist": [{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx05301timeout1"
+				},
+				{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx05301timeout2"
+				},
+				{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx05301error3"
+				}],
+				"actionlist": [{
+					"property": "broadcastReply",
+					"actionParams": ["true",
+					"nx_more"]
+				},
+				{
+					"property": "backToMainMenu",
+					"actionName": "mainMenu",
+					"actionParams": []
+				}]
+			},
+			"subStateNode": [{
+				"id": "nx055_10元100M流量包",
+				"reply": [{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx055_lb"
+				}],
+				"subStateNode": [],
+				"query": "",
+				"transitions": [],
+				"params": [],
+				"init_process": "nx05510元100M流量包"
+			},
+			{
+				"id": "nx056_20元300M流量包",
+				"reply": [{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx056_lb"
+				}],
+				"subStateNode": [],
+				"query": "",
+				"transitions": [],
+				"params": [],
+				"init_process": "nx05620元300M流量包"
+			},
+			{
+				"id": "nx057_30元1G流量包",
+				"reply": [{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx057_lb"
+				}],
+				"subStateNode": [],
+				"query": "",
+				"transitions": [],
+				"params": [],
+				"init_process": "nx05730元1G流量包"
+			},
+			{
+				"id": "nx058_50元2G流量包",
+				"reply": [{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx058_lb"
+				}],
+				"subStateNode": [],
+				"query": "",
+				"transitions": [],
+				"params": [],
+				"init_process": "nx05850元2G流量包"
+			},
+			{
+				"id": "nx059_70元3G流量包",
+				"reply": [{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx059_lb"
+				}],
+				"subStateNode": [],
+				"query": "",
+				"transitions": [],
+				"params": [],
+				"init_process": "nx05970元3G流量包"
+			}],
+			"query": "",
+			"transitions": [],
+			"params": [],
+			"init_process": "nx053上网流量办理"
+		},
+		{
+			"id": "nx060_上网流量取消",
+			"reply": [{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx060_lb"
+			}],
+			"subStateNode": [],
+			"query": "",
+			"transitions": [],
+			"params": [],
+			"init_process": "nx060上网流量取消"
+		},
+		{
+			"id": "nx061_流量加油包办理",
+			"reply": [{
+				"interrupt": "false",
+				"property": "broadcast",
+				"content": "nx061_lb"
+			},
+			{
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx06101_01"
+			}],
+			"reListenReply": {
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx06101_01"
+			},
+			"helpReply": {
+				"interrupt": "true",
+				"property": "broadcast",
+				"content": "nx061011help"
+			},
+			"noMatch": {
+				"noMatchorinputlist": [{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx06101nomatch1"
+				},
+				{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx06101nomatch2"
+				},
+				{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx06101error3"
+				}],
+				"actionlist": [{
+					"property": "broadcastReply",
+					"actionParams": ["true",
+					"nx_more"]
+				},
+				{
+					"property": "backToMainMenu",
+					"actionName": "mainMenu",
+					"actionParams": []
+				}]
+			},
+			"noInput": {
+				"noMatchorinputlist": [{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx06101timeout1"
+				},
+				{
+					"interrupt": "true",
+					"property": "broadcast",
+					"content": "nx06101timeout2"
+				},
+				{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx06101error3"
+				}],
+				"actionlist": [{
+					"property": "broadcastReply",
+					"actionParams": ["true",
+					"nx_more"]
+				},
+				{
+					"property": "backToMainMenu",
+					"actionName": "mainMenu",
+					"actionParams": []
+				}]
+			},
+			"subStateNode": [{
+				"id": "nx062_5元30M流量加油包",
+				"reply": [{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx062_lb"
+				}],
+				"subStateNode": [],
+				"query": "",
+				"transitions": [],
+				"params": [],
+				"init_process": "nx0625元30M流量加油包"
+			},
+			{
+				"id": "nx063_10元100M流量加油包",
+				"reply": [{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx063_lb"
+				}],
+				"subStateNode": [],
+				"query": "",
+				"transitions": [],
+				"params": [],
+				"init_process": "nx06310元100M流量加油包"
+			},
+			{
+				"id": "nx064_20元300M流量加油包",
+				"reply": [{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx064_lb"
+				}],
+				"subStateNode": [],
+				"query": "",
+				"transitions": [],
+				"params": [],
+				"init_process": "nx06420元300M流量加油包"
+			},
+			{
+				"id": "nx065_30元500M流量加油包",
+				"reply": [{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx065_lb"
+				}],
+				"subStateNode": [],
+				"query": "",
+				"transitions": [],
+				"params": [],
+				"init_process": "nx06530元500M流量加油包"
+			},
+			{
+				"id": "nx066_50元1G流量加油包",
+				"reply": [{
+					"interrupt": "false",
+					"property": "broadcast",
+					"content": "nx066_lb"
+				}],
+				"subStateNode": [],
+				"query": "",
+				"transitions": [],
+				"params": [],
+				"init_process": "nx06650元1G流量加油包"
+			}],
+			"query": "",
+			"transitions": [],
+			"params": [],
+			"init_process": ""
+		}],
+		"query": "",
+		"transitions": [],
+		"params": [],
+		"init_process": ""
+	}],
+	"helpReply": {
+		"interrupt": "true",
+		"property": "broadcast",
+		"content": "nx_help"
+	},
+	"reListenReply": {
+		"interrupt": "true",
+		"property": "broadcast",
+		"content": "nx_start"
+	},
+	"query": "",
+	"transitions": [],
+	"params": [],
+	"init_process": ""
+}

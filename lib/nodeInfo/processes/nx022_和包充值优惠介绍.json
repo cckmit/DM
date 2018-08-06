@@ -1,0 +1,126 @@
+{
+	"name": "nx022_和包充值优惠介绍",
+	"onEnterAction": [{
+		"actionParams": ["false",
+		"nx022_lb"],
+		"property": "broadcastReply"
+	}],
+	"init_step": "isStopService",
+	"steps": [{
+		"property": "APIStep",
+		"name": "isStopService",
+		"transitions": [{
+			"condition": "isStopService.是否停机==true",
+			"actions": [{
+				"property": "executeStepAction",
+				"actionParams": ["和包充值优惠介绍"]
+			}]
+		},
+		{
+			"condition": "isStopService.是否停机==false",
+			"actions": [{
+				"property": "executeStepAction",
+				"actionParams": ["sendMess"]
+			},
+			{
+				"property": "executeStepAction",
+				"actionParams": ["和包充值优惠介绍"]
+			}]
+		}],
+		"helpReply": null,
+		"reListenReply": null,
+		"functionEntity": {
+			"input": {
+				"tel": "$tel$"
+			},
+			"functionName": "tjpd",
+			"output": ["是否停机",
+			"停机原因"]
+		}
+	},
+	{
+		"property": "APIStep",
+		"name": "sendMess",
+		"transitions": [],
+		"helpReply": null,
+		"reListenReply": null,
+		"functionEntity": {
+			"input": {
+				"tel": "$tel$",
+				"content": "尊敬的客户，您好！我公司已推出和包业务，您在全网支付平台上开立支付账户并预存相应资金后，通过短信、互联网等通信手段，使用支付账户即可完成话费缴纳、互联网购物、账单支付，“和包”客户通过各大应用软件均可下载。【中国移动】"
+			},
+			"functionName": "dxxf",
+			"output": []
+		}
+	},
+	{
+		"property": "commandASRStep",
+		"name": "和包充值优惠介绍",
+		"transitions": [{
+			"condition": "command=='重听'",
+			"actions": [{
+				"property": "synthesisReply",
+				"actionParams": [true,
+				"我公司已推出和包业务，您在全网支付平台上开立支付账户并预存相应资金后，通过短信、互联网等通信手段，使用支付账户即可完成话费缴纳、互联网购物、账单支付，“和包”客户通过各大应用软件均可下载。"]
+			}]
+		},
+		{
+			"condition": "command=='返回'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		}],
+		"helpReply": null,
+		"reListenReply": {
+			"interrupt": true,
+			"property": "synthesis",
+			"content": "我公司已推出和包业务，您在全网支付平台上开立支付账户并预存相应资金后，通过短信、互联网等通信手段，使用支付账户即可完成话费缴纳、互联网购物、账单支付，“和包”客户通过各大应用软件均可下载。"
+		},
+		"jumpOut": true,
+		"noParamReply": {
+			"interrupt": true,
+			"property": "synthesis",
+			"content": "我公司已推出和包业务，您在全网支付平台上开立支付账户并预存相应资金后，通过短信、互联网等通信手段，使用支付账户即可完成话费缴纳、互联网购物、账单支付，“和包”客户通过各大应用软件均可下载。"
+		},
+		"checkParamJs": null,
+		"commandList": ["重听"],
+		"matchedCommand": ""
+	},
+	{
+		"property": "jsStep",
+		"name": "checkReply",
+		"transitions": [{
+			"condition": "isStopService.是否停机 == true && isStopService.停机原因 == '欠费停机'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more1"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		},
+		{
+			"condition": "true",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		}],
+		"helpReply": null,
+		"reListenReply": null,
+		"script": "true"
+	}]
+}

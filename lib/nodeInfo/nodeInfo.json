@@ -1,0 +1,7 @@
+{
+"stateNodePath":"lib/nodeInfo/stateNode.json",
+"processesPath":"lib/nodeInfo/processes/",
+"paramsPath":"lib/nodeInfo/params.json",
+"configPath":"lib/nodeInfo/config.json",
+"apiPath":"lib/nodeInfo/apiList.json"
+}

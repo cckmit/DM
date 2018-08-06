@@ -1,0 +1,62 @@
+{
+  "name" : "nx119_人工服务流程",
+  "init_step" : "人工服务确认",
+  "steps" : [ {
+    "property" : "commandASRStep",
+    "name" : "人工服务确认",
+    "transitions" : [ {
+      "condition" : "command =='确认'",
+      "actions" : [ {
+        "property" : "backToServices",
+        "actionName" : null,
+        "actionParams" : [ "artificialServices" ]
+      } ]
+    }, {
+      "condition" : "command =='返回'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "noMatch" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx119_02"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx_more"
+      } ],
+      "actionlist" : [ ]
+    },
+    "noInput" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx119_02"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx_more"
+      } ],
+      "actionlist" : [ ]
+    },
+    "jumpOut" : true,
+    "noParamReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx119_01"
+    },
+    "checkParamJs" : null,
+    "commandList" : [ "确认", "返回" ],
+    "matchedCommand" : ""
+  } ]
+}

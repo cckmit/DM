@@ -1,0 +1,92 @@
+{
+	"name": "nx008_返还记录查询流程",
+	"init_step": "isHaveFHJL",
+	"onEnterAction": [{
+		"property": "broadcastReply",
+		"actionParams": ["false",
+		"nx008_lb"]
+	}],
+	"steps": [{
+		"name": "isHaveFHJL",
+		"property": "APIStep",
+		"id": "isHaveFHJL",
+		"functionEntity": {
+			"input": {
+				"tel": "$tel$"
+			},
+			"functionName": "fhjl",
+			"output": ["是否存在返还记录",
+			"是否欠费停机",
+			"停机下返还记录内容",
+			"未停机下返还记录内容",
+			"返还记录短信内容"]
+		},
+		"transitions": [{
+			"condition": "isHaveFHJL.是否存在返还记录 == false ",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["false",
+				"nx008_01"]
+			},
+			{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		},
+		{
+			"condition": "isHaveFHJL.是否存在返还记录 == true && isHaveFHJL.是否欠费停机==true",
+			"actions": [{
+				"property": "synthesisReply",
+				"actionParams": ["false",
+				"$isHaveFHJL.停机下返还记录内容$"]
+			},
+			{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_busi_success"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		},
+		{
+			"condition": "isHaveFHJL.是否存在返还记录 == true && isHaveFHJL.是否欠费停机==false",
+			"actions": [{
+				"property": "synthesisReply",
+				"actionParams": ["false",
+				"$isHaveFHJL.未停机下返还记录内容$"]
+			},
+			{
+				"property": "executeStepAction",
+				"actionParams": ["sendMess"]
+			},
+			{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_busi_success"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		}]
+	},
+	{
+		"name": "sendMess",
+		"property": "APIStep",
+		"functionEntity": {
+			"input": {
+				"tel": "$tel$",
+				"content": "$isHaveFHJL.返还记录短信内容$"
+			},
+			"functionName": "dxxf",
+			"output": []
+		}
+	}]
+}

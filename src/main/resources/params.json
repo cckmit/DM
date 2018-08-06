@@ -1,0 +1,71 @@
+
+	[{
+		"name": "tel",
+		"param_reply": "",
+		"param_query": "",
+		"param_query_params": [],
+		"defaultFunction": [],
+		"type": "",
+		"scope": "global",
+		"runtime": "global"
+	},
+	{
+		"name": "serviceTelephone",
+		"param_reply": "",
+		"param_query": "",
+		"param_query_params": [],
+		"defaultFunction": [],
+		"type": "",
+		"scope": "global",
+		"runtime": "global"
+	},
+	{
+		"name": "month",
+		"param_reply": "",
+		"param_query": "",
+		"param_query_params": [],
+		"defaultFunction": [],
+		"type": "月份",
+		"scope": "global",
+		"runtime": "local"
+	},
+	{
+		"name": "idCard",
+		"param_reply": "",
+		"param_query": "",
+		"param_query_params": [],
+		"defaultFunction": [],
+		"type": "身份证",
+		"scope": "global",
+		"runtime": "local"
+	},
+	{
+		"name": "password",
+		"param_reply": "",
+		"param_query": "",
+		"param_query_params": [],
+		"defaultFunction": [],
+		"type": "密码",
+		"scope": "global",
+		"runtime": "global"
+	},
+	{
+		"name": "new_password",
+		"param_reply": "",
+		"param_query": "",
+		"param_query_params": [],
+		"defaultFunction": [],
+		"type": "密码",
+		"scope": "global",
+		"runtime": "local"
+	},
+	{
+		"name": "new_password_confirm",
+		"param_reply": "",
+		"param_query": "",
+		"param_query_params": [],
+		"defaultFunction": [],
+		"type": "密码",
+		"scope": "global",
+		"runtime": "local"
+	}]

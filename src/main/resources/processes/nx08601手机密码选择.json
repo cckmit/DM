@@ -1,0 +1,70 @@
+{
+  "name" : "nx08601手机密码选择",
+  "init_step" : "isStopService",
+  "steps" : [ {
+    "property" : "APIStep",
+    "name" : "isStopService",
+    "transitions" : [ {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '欠费停机'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx901_02" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '主动报停'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx901_01" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '其他原因'",
+      "actions" : [ {
+        "property" : "synthesisReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "您好！您的手机由于$isStopService.其他原因之具体$原因！无法办理此业务！" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == false",
+      "actions" : [ {
+        "property" : "transitionAction",
+        "actionName" : null,
+        "actionParams" : [ "nx08601_手机密码选择" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "tjpd",
+      "output" : [ "是否停机", "停机原因" ]
+    }
+  } ]
+}

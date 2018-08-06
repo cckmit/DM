@@ -1,0 +1,209 @@
+{
+  "name" : "nx06420元300M流量加油包",
+  "onEnterAction": [
+    {
+      "actionParams": [
+        "false",
+        "nx064_lb"
+      ],
+      "property": "broadcastReply"
+    }
+  ],
+  "init_step" : "isHightest",
+  "steps" : [ {
+    "property" : "APIStep",
+    "name" : "isHightest",
+    "transitions" : [ {
+      "condition" : "isHightest.是否达到GRPS双封顶==false",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionParams" : [ "isHaveWeb" ]
+      } ]
+    }, {
+      "condition" : "isHightest.是否达到GRPS双封顶==true",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx064_01" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "gprssfd",
+      "output" : [ "是否达到GRPS双封顶" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "isHaveWeb",
+    "transitions" : [ {
+      "condition" : "isHaveWeb.是否开通上网功能==true",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionParams" : [ "isStopService" ]
+      } ]
+    }, {
+      "condition" : "isHaveWeb.是否开通上网功能==false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx064_02" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more4" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "swgg",
+      "output" : [ "是否开通上网功能" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "isStopService",
+    "transitions" : [ {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '欠费停机'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx901_02" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '主动报停'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx901_01" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '其他原因'",
+      "actions" : [ {
+        "property" : "synthesisReply",
+        "actionParams" : [ "false", "您好！您的手机由于$isStopService.其他原因之具体$原因！无法办理此业务！" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == false",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionParams" : [ "isCompatible" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "tjpd",
+      "output" : [ "是否停机", "停机原因" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "isCompatible",
+    "transitions" : [ {
+      "condition" : "isCompatible.是否余额不足== true",
+      "actions" : [ {
+        "property" : "synthesisReply",
+        "actionParams" : [ "false", "很抱歉，您的话费余额不足已支付该业务。" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isCompatible.是否余额不足== false && isCompatible.是否与本套餐兼容==true",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionParams" : [ "isRealName" ]
+      } ]
+    }, {
+      "condition" : "isCompatible.是否余额不足== false && isCompatible.是否与本套餐兼容==false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx064_03" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "nodeName" : "$currentMenu$"
+      },
+      "functionName" : "tcjr",
+      "output" : [ "是否与本套餐兼容" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "isRealName",
+    "transitions" : [ {
+      "condition" : "isRealName.是否实名==false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx064_04" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isRealName.是否实名==true",
+      "actions" : [ {
+        "property" : "executeProcessAction",
+        "actionParams" : [ "nx902密码验证流程" ]
+      }, {
+        "property" : "executeProcessAction",
+        "actionParams" : [ "nx0640120元300M流量加油包办理确认" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "smrz",
+      "output" : [ "是否实名" ]
+    }
+  } ]
+}

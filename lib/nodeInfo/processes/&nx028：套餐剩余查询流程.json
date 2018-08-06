@@ -1,0 +1,163 @@
+{
+	"name": "&nx028：套餐剩余查询流程",
+	"onEnterAction": [{
+		"actionParams": ["false",
+		"nx028_lb"],
+		"property": "broadcastReply"
+	}],
+	"init_step": "isHaveBPInfo",
+	"steps": [{
+		"property": "APIStep",
+		"name": "isHaveBPInfo",
+		"transitions": [{
+			"condition": "isHaveBPInfo.是否存在记录 == false ",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["false",
+				"nx028_01"]
+			},
+			{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		},
+		{
+			"condition": "isHaveBPInfo.是否存在记录 == true",
+			"actions": [{
+				"property": "executeStepAction",
+				"actionParams": ["isStopService"]
+			}]
+		}],
+		"helpReply": null,
+		"reListenReply": null,
+		"functionEntity": {
+			"input": {
+				"tel": "$tel$"
+			},
+			"functionName": "syllcx",
+			"output": [
+			"是否存在记录",
+			"tcylcontent",
+			"tts_tcylcontent"]
+		}
+	},
+	{
+		"property": "APIStep",
+		"name": "isStopService",
+		"transitions": [{
+			"condition": "isStopService.是否停机==true",
+			"actions": [{
+				"property": "executeStepAction",
+				"actionParams": ["查询套餐"]
+			}]
+		},
+		{
+			"condition": "isStopService.是否停机==false",
+			"actions": [{
+				"property": "executeStepAction",
+				"actionParams": ["sendMess"]
+			},
+			{
+				"property": "executeStepAction",
+				"actionParams": ["查询套餐"]
+			}]
+		}],
+		"helpReply": null,
+		"reListenReply": null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "tjpd",
+      "output" : [ "是否停机", "停机原因" ]
+    }
+	},
+	{
+		"property": "APIStep",
+		"name": "sendMess",
+		"transitions": [],
+		"helpReply": null,
+		"reListenReply": null,
+		"functionEntity": {
+			"input": {
+				"tel": "$tel$",
+				"content": "$isHaveBPInfo.tcylcontent$"
+			},
+			"functionName": "dxxf",
+			"output": []
+		}
+	},
+	{
+		"property": "commandASRStep",
+		"name": "查询套餐",
+		"transitions": [{
+			"condition": "command=='重听'",
+			"actions": [{
+				"property": "synthesisReply",
+				"actionParams": [true,
+				"$isHaveBPInfo.tts_tcylcontent$"]
+			}]
+		},
+		{
+			"condition": "command=='返回'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		}],
+		"reListenReply": {
+			"interrupt": true,
+			"property": "synthesis",
+			"content": "$isHaveBPInfo.tts_tcylcontent$"
+		},
+		"jumpOut": true,
+		"noParamReply": {
+			"interrupt": true,
+			"property": "synthesis",
+			"content": "$isHaveBPInfo.tts_tcylcontent$"
+		},
+		"checkParamJs": null,
+		"commandList": ["重听"]
+	},
+	{
+		"property": "jsStep",
+		"name": "checkReply",
+		"transitions": [{
+			"condition": "isStopService.是否停机 == true && isStopService.停机原因 == '欠费停机'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more1"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		},
+		{
+			"condition": "true",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		}],
+		"helpReply": null,
+		"reListenReply": null,
+		"script": "true"
+	}]
+}

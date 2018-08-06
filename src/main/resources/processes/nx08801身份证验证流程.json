@@ -1,0 +1,309 @@
+{
+  "name" : "nx08801身份证验证流程",
+  "init_step" : "idCardInput1",
+  "steps" : [ {
+    "property" : "keypadStep",
+    "name" : "idCardInput1",
+    "transitions" : [ {
+      "condition" : "idCard == '#' ",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "true",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : null,
+        "actionParams" : [ "isIDcardRight1" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "noMatch" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08801nomatch1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08801nomatch2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx08801lerror3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "noInput" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08801timeout1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08801timeout2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx08801lerror3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "jumpOut" : true,
+    "noParamReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx08801_01"
+    },
+    "checkParamJs" : null,
+    "keypadInputParam" : "idCard"
+  }, {
+    "property" : "keypadStep",
+    "name" : "idCardInput2",
+    "transitions" : [ {
+      "condition" : "idCard == '#' ",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "true",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : null,
+        "actionParams" : [ "isIDcardRight2" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "noMatch" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08801nomatch1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08801nomatch2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx08801lerror3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "noInput" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08801timeout1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08801timeout2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx08801lerror3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "jumpOut" : true,
+    "noParamReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx08801_06"
+    },
+    "checkParamJs" : null,
+    "keypadInputParam" : "idCard"
+  }, {
+    "property" : "keypadStep",
+    "name" : "idCardInput3",
+    "transitions" : [ {
+      "condition" : "idCard == '#' ",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "true",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : null,
+        "actionParams" : [ "isIDcardRight3" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "noMatch" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08801nomatch1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08801nomatch2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx08801lerror3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "noInput" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08801timeout1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08801timeout2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx08801lerror3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "jumpOut" : true,
+    "noParamReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx08801_06"
+    },
+    "checkParamJs" : null,
+    "keypadInputParam" : "idCard"
+  }, {
+    "property" : "APIStep",
+    "name" : "isIDcardRight1",
+    "transitions" : [ {
+      "condition" : "isIDcardRight1.证件号码是否正确 == true ",
+      "actions" : [ ]
+    }, {
+      "condition" : "isIDcardRight1.证件号码是否正确 == false",
+      "actions" : [ {
+        "property" : "clearParamValue",
+        "actionName" : null,
+        "actionParams" : [ "idCard" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionName" : null,
+        "actionParams" : [ "idCardInput2" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "idCard" : "$idCard$"
+      },
+      "functionName" : "sfzyz",
+      "output" : [ "证件号码是否正确" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "isIDcardRight2",
+    "transitions" : [ {
+      "condition" : "isIDcardRight2.证件号码是否正确 == true ",
+      "actions" : [ ]
+    }, {
+      "condition" : "isIDcardRight2.证件号码是否正确 == false",
+      "actions" : [ {
+        "property" : "clearParamValue",
+        "actionName" : null,
+        "actionParams" : [ "idCard" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionName" : null,
+        "actionParams" : [ "idCardInput3" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "idCard" : "$idCard$"
+      },
+      "functionName" : "sfzyz",
+      "output" : [ "证件号码是否正确" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "isIDcardRight3",
+    "transitions" : [ {
+      "condition" : "isIDcardRight3.证件号码是否正确 == true ",
+      "actions" : [ ]
+    }, {
+      "condition" : "isIDcardRight3.证件号码是否正确 == false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx08801_05" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "idCard" : "$idCard$"
+      },
+      "functionName" : "sfzyz",
+      "output" : [ "证件号码是否正确" ]
+    }
+  } ]
+}

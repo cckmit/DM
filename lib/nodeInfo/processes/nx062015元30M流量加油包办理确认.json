@@ -1,0 +1,133 @@
+{
+  "name" : "nx062015元30M流量加油包办理确认",
+  "init_step" : "5Yuan30MAddConfirm",
+  "steps" : [ {
+    "property" : "commandASRStep",
+    "name" : "5Yuan30MAddConfirm",
+    "transitions" : [ {
+      "condition" : "command=='确认'",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionParams" : [ "isAccepted" ]
+      } ]
+    }, {
+      "condition" : "command=='返回'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx06201help"
+    },
+    "reListenReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx06201_01"
+    },
+    "noMatch" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx06201nomatch1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx06201nomatch2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx06201error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "noInput" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx06201timeout1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx06201timeout2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx06201error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "jumpOut" : true,
+    "noParamReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx06201_01"
+    },
+    "checkParamJs" : null,
+    "commandList" : [ "确认", "返回" ],
+    "matchedCommand" : ""
+  }, {
+    "property" : "APIStep",
+    "name" : "isAccepted",
+    "transitions" : [ {
+      "condition" : "isAccepted.办理成功==false&&isAccepted.失败原因=='余额不足'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx06201_03" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isAccepted.办理成功==true",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx06201_02" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isAccepted.办理成功==false && isAccepted.失败原因=='系统繁忙'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx06201_04" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more6" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "nodeName" : "$currentMenu$",
+        "sType" : "ADD",
+        "command" : "$command$"
+      },
+      "functionName" : "lljyb",
+      "output" : [ "办理成功,失败原因" ]
+    }
+  } ]
+}

@@ -1,0 +1,130 @@
+{
+  "name" : "nx05101上网功能开通确认",
+  "init_step" : "isOpenWeb",
+  "steps" : [ {
+    "property" : "commandASRStep",
+    "name" : "isOpenWeb",
+    "transitions" : [ {
+      "condition" : "command=='确认'",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : null,
+        "actionParams" : [ "isDosuccess" ]
+      } ]
+    }, {
+      "condition" : "command=='返回'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx05101help"
+    },
+    "reListenReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx05101_01"
+    },
+    "noMatch" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx05101nomatch1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx05101nomatch2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx05101error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "noInput" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx05101timeout1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx05101timeout2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx05101error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "jumpOut" : true,
+    "noParamReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx05101_01"
+    },
+    "checkParamJs" : null,
+    "commandList" : [ "确认", "返回" ],
+    "matchedCommand" : ""
+  }, {
+    "property" : "APIStep",
+    "name" : "isDosuccess",
+    "transitions" : [ {
+      "condition" : "isDosuccess.上网功能开通成功==false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx05101_03" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more6" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isDosuccess.上网功能开通成功==true",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx05101_02" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "command" : "$command$"
+      },
+      "functionName" : "swggkt",
+      "output" : [ "上网功能开通成功" ]
+    }
+  } ]
+}

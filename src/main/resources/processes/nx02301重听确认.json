@@ -1,0 +1,240 @@
+{
+  "name" : "nx02301重听确认",
+  "init_step" : "isReListen1",
+  "steps" : [ {
+    "property" : "commandASRStep",
+    "name" : "isReListen1",
+    "transitions" : [ {
+      "condition" : "command=='重听'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx023_01" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "isReListen2" ]
+      } ]
+    }, {
+      "condition" : "command=='返回'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "noMatch" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx02301nomatch"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx02301nomatch"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx02301error"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "noInput" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx02301timeout"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx02301timeout"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx02301error"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "jumpOut" : true,
+    "noParamReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx02301_01"
+    },
+    "checkParamJs" : null,
+    "commandList" : [ "重听", "返回" ],
+    "matchedCommand" : ""
+  }, {
+    "property" : "commandASRStep",
+    "name" : "isReListen2",
+    "transitions" : [ {
+      "condition" : "command=='重听'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx023_01" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "isReListen3" ]
+      } ]
+    }, {
+      "condition" : "command=='返回'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "noMatch" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx02301nomatch"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx02301nomatch"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx02301error"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "noInput" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx02301timeout"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx02301timeout"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx02301error"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "jumpOut" : true,
+    "noParamReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx02301_01"
+    },
+    "checkParamJs" : null,
+    "commandList" : [ "重听", "返回" ],
+    "matchedCommand" : ""
+  }, {
+    "property" : "commandASRStep",
+    "name" : "isReListen3",
+    "transitions" : [ {
+      "condition" : "command=='重听'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx023_01" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "command=='返回'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "noMatch" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx02301nomatch"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx02301nomatch"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx02301error"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "noInput" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx02301timeout"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx02301timeout"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx02301error"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "jumpOut" : true,
+    "noParamReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx02301_01"
+    },
+    "checkParamJs" : null,
+    "commandList" : [ "重听", "返回" ],
+    "matchedCommand" : ""
+  } ]
+}

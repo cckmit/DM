@@ -1,0 +1,101 @@
+{
+  "name" : "&nx028：套餐剩余查询流程",
+  "init_step" : "isHaveBPInfo",
+  "steps" : [ {
+    "property" : "APIStep",
+    "name" : "isHaveBPInfo",
+    "transitions" : [ {
+      "condition" : "isHaveBPInfo.是否存在记录 == false ",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx028_01" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isHaveBPInfo.是否存在记录 == true",
+      "actions" : [ {
+        "property" : "synthesisReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "$isHaveBPInfo.tts_tcylcontent$" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "isStopService" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "syllcx",
+      "output" : [ "本月流量共计", "本月流量已使用", "本月流量剩余", "是否有上月流量结转", "上月结转流量共计", "上月结转流量已使用", "上月结转流量剩余", "上月结转流量有效期", "套餐", "套餐内流量共计", "套餐内流量已使用", "套餐内流量剩余", "流量包", "流量包流量共计", "流量包流量已使用", "流量包流量剩余", "是否存在记录", "当前时间", "语音套餐", "语音套餐已使用", "语音套餐剩余", "短信套餐", "短信套餐已使用", "短信套餐剩余", "彩信套餐", "彩信套餐已使用", "彩信套餐剩余", "上网套餐", "上网套餐已使用", "上网套餐剩余", "tcylcontent", "tts_tcylcontent" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "isStopService",
+    "transitions" : [ {
+      "condition" : "isStopService.是否停机==true",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机==false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx028_02" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "sendMess" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "tjpd",
+      "output" : [ "是否停机", "停机原因" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "sendMess",
+    "transitions" : [ ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "content" : "$isHaveBPInfo.tcylcontent$"
+      },
+      "functionName" : "dxxf",
+      "output" : [ ]
+    }
+  } ]
+}

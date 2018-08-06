@@ -1,0 +1,73 @@
+{
+  "name" : "nx08703新密码二次确认流程",
+  "init_step" : "新密码确认",
+  "steps" : [ {
+    "property" : "keypadStep",
+    "name" : "新密码确认",
+    "transitions" : [ {
+      "condition" : "new_password_confirm == '*' ",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "true",
+      "actions" : [ ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "noMatch" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08703nomatch1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08703nomatch2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx08703error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "noInput" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08703timeout1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx08703timeout2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx08703error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "jumpOut" : true,
+    "noParamReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx08703_01"
+    },
+    "checkParamJs" : null,
+    "keypadInputParam" : "new_password_confirm"
+  } ]
+}

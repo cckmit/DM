@@ -1,0 +1,184 @@
+{
+  "name" : "nx087_手机密码修改",
+  "onEnterAction": [
+    {
+      "actionParams": [
+        "false",
+        "nx087_lb"
+      ],
+      "property": "broadcastReply"
+    }
+  ],
+  "init_step" : "isStopService",
+  "steps" : [ {
+    "property" : "APIStep",
+    "name" : "isStopService",
+    "transitions" : [ {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '欠费停机'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx901_02" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '主动报停'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx901_01" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '其他原因'",
+      "actions" : [ {
+        "property" : "synthesisReply",
+        "actionParams" : [ "false", "您好！您的手机由于$isStopService.其他原因之具体$原因！无法办理此业务！" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == false",
+      "actions" : [ {
+        "property" : "executeProcessAction",
+        "actionParams" : [ "nx08701原密码验证流程" ]
+      }, {
+        "property" : "executeProcessAction",
+        "actionParams" : [ "nx08702新密码首次输入流程" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionParams" : [ "两次密码是否一致" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "tjpd",
+      "output" : [ "是否停机", "停机原因" ]
+    }
+  }, {
+    "property" : "jsStep",
+    "name" : "两次密码是否一致",
+    "transitions" : [ {
+      "condition" : "是否一致 == false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx087_04" ]
+      }, {
+        "property" : "clearParamValue",
+        "actionParams" : [ "new_password" ]
+      }, {
+        "property" : "clearParamValue",
+        "actionParams" : [ "new_password_confirm" ]
+      }, {
+        "property" : "executeProcessAction",
+        "actionParams" : [ "nx08702新密码首次输入流程" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionParams" : [ "两次密码是否一致" ]
+      } ]
+    }, {
+      "condition" : "是否一致 == true",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionParams" : [ "密码修改是否成功" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "script" : "是否一致 = numberSame(new_password,new_password_confirm)"
+  }, {
+    "property" : "APIStep",
+    "name" : "密码修改是否成功",
+    "transitions" : [ {
+      "condition" : "密码修改是否成功.密码修改是否成功 == true",
+      "actions" : [ {
+        "property" : "jsAction",
+        "actionParams" : [ "password = new_password" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx087_01" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "密码修改是否成功.密码修改是否成功 == false && 密码修改是否成功.是否为弱密码 == false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx087_02" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionParams" : [ "sendMess" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_mag" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "密码修改是否成功.密码修改是否成功 == false && 密码修改是否成功.是否为弱密码 == true",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx087_03" ]
+      }, {
+        "property" : "clearParamValue",
+        "actionParams" : [ "new_password" ]
+      }, {
+        "property" : "clearParamValue",
+        "actionParams" : [ "new_password_confirm" ]
+      }, {
+        "property" : "executeProcessAction",
+        "actionParams" : [ "nx08702新密码首次输入流程" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionParams" : [ "两次密码是否一致" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "passwordNew" : "$new_password$",
+        "passwordOld" : "$password$"
+      },
+      "functionName" : "mmxg",
+      "output" : [ "密码修改是否成功", "是否为弱密码" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "sendMess",
+    "transitions" : [ ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "content" : "亲,无需人工您也可重置密码喔~直接发送短信401*入网证件号码*新密码#至10086；如需修改密码,您可编辑短信402*旧密码*新密码#发送至10086,或拨打10086按4号键输入证件号码进行重置喔！（注：身份证号码尾数带“X”短信直接输入即可；请您不要将密码设为六位相同、连续数字、手机号码或登记身份证件中的任何连续六位数字。）",
+        "new_password" : "$new_password$"
+      },
+      "functionName" : "dxxf",
+      "output" : [ ]
+    }
+  } ]
+}

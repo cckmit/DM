@@ -1,0 +1,165 @@
+{
+  "name" : "nx06801流量畅爽包办理确认",
+  "init_step" : "effectivetime",
+  "steps" : [ {
+    "property" : "commandASRStep",
+    "name" : "effectivetime",
+    "transitions" : [ {
+      "condition" : "command=='当月生效' || command=='有效期12个月'",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : null,
+        "actionParams" : [ "isSucess" ]
+      } ]
+    } ],
+    "helpReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx06801help"
+    },
+    "reListenReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx06801_01"
+    },
+    "noMatch" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx06801nomatch1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx06801nomatch2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx06801error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "noInput" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx06801timeout1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx06801timeout2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx06801error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "jumpOut" : true,
+    "noParamReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx06801_01"
+    },
+    "checkParamJs" : null,
+    "commandList" : [ "当月生效", "有效期12个月" ],
+    "matchedCommand" : ""
+  }, {
+    "property" : "APIStep",
+    "name" : "isSucess",
+    "transitions" : [ {
+      "condition" : "isSucess.办理成功 == false && isSucess.失败原因 == '余额不足'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx06801_04" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isSucess.办理成功 == false && isSucess.失败原因 == '业务互斥'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx068_02" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isSucess.办理成功 == false && isSucess.失败原因 == '其他失败原因'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx06801_05" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more6" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isSucess.办理成功 == true && command=='当月生效'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx06801_02" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isSucess.办理成功 == true && command=='有效期12个月'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx06801_03" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "nodeName" : "$business$",
+        "effectType" : "$command$"
+      },
+      "functionName" : "qnllcsb",
+      "output" : [ "办理成功", "失败原因" ]
+    }
+  } ]
+}

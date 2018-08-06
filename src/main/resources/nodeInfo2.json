@@ -1,0 +1,6 @@
+{
+"stateNodePath":"nodeInfo/stateNode.json",
+"processesPath":"nodeInfo/processes/",
+"paramsPath":"nodeInfo/params.json",
+"commandsPath":"nodeInfo/commands.json"
+}

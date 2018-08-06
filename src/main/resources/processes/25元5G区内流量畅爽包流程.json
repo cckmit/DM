@@ -1,0 +1,300 @@
+{
+  "name" : "25元5G区内流量畅爽包流程",
+  "init_step" : "是否办理过",
+  "steps" : [ {
+    "property" : "APIStep",
+    "name" : "是否办理过",
+    "transitions" : [ {
+      "condition" : "是否办理过.是否办理过25元5G区内流量畅爽包包月== true",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx070_01" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "是否办理过.是否办理过25元5G区内流量畅爽包包月== false",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : null,
+        "actionParams" : [ "isStopService" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "qnllcsbcx10",
+      "output" : [ "是否办理过25元5G区内流量畅爽包包月" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "isStopService",
+    "transitions" : [ {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '欠费停机'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx901_02" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '主动报停'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx901_01" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '其他原因'",
+      "actions" : [ {
+        "property" : "synthesisReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "您好！您的手机由于$isStopService.其他原因之具体$原因！无法办理此业务！" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == false",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : null,
+        "actionParams" : [ "ifcombine" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "tjpd",
+      "output" : [ "是否停机", "停机原因" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "ifcombine",
+    "transitions" : [ {
+      "condition" : "ifcombine.是否余额不足== true",
+      "actions" : [ {
+        "property" : "synthesisReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "很抱歉，您的话费余额不足已支付该业务。" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "ifcombine.是否余额不足== false && ifcombine.是否与本套餐兼容== false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx070_02" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "ifcombine.是否余额不足== false && ifcombine.是否与本套餐兼容== true",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : null,
+        "actionParams" : [ "isRealName" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "nodeName" : "$business$"
+      },
+      "functionName" : "tcjr",
+      "output" : [ "是否与本套餐兼容" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "isRealName",
+    "transitions" : [ {
+      "condition" : "isRealName.是否实名 == false ",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx070_03" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isRealName.是否实名 == true ",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : null,
+        "actionParams" : [ "ifqualified" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "smrz",
+      "output" : [ "是否实名" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "ifqualified",
+    "transitions" : [ {
+      "condition" : "ifqualified.是否为58元及以上飞享套餐 == false && ifqualified.是否为和家庭幸福套餐 == false && ifqualified.是否为4G上网套餐 == false && ifqualified.是否为4G商旅套餐 == false && ifqualified.是否为4G流量卡套餐 == false && ifqualified.是否上月消费大于等于58元 == false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx070_04" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : null,
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "ifqualified.是否为58元及以上飞享套餐 == true || ifqualified.是否为和家庭幸福套餐 == true || ifqualified.是否为4G上网套餐 == true || ifqualified.是否为4G商旅套餐 == true || ifqualified.是否为4G流量卡套餐 == true || ifqualified.是否上月消费大于等于58元 == true",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : null,
+        "actionParams" : [ "iftop" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "tczdcx",
+      "output" : [ "是否为18元及以上飞享套餐", "是否为和家庭幸福套餐", "是否为4G上网套餐", "是否为4G商旅套餐", "是否为4G流量卡套餐", "是否上月消费大于等于18元", "是否为58元及以上飞享套餐", "是否上月消费大于等于58元" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "iftop",
+    "transitions" : [ {
+      "condition" : "iftop.是否达到GRPS双封顶== true",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx070_05" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "iftop.是否达到GRPS双封顶== false",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : null,
+        "actionParams" : [ "connectnet" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "gprssfd",
+      "output" : [ "是否达到GRPS双封顶" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "connectnet",
+    "transitions" : [ {
+      "condition" : "connectnet.是否开通上网功能== false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx070_06" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more4" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "connectnet.是否开通上网功能== true",
+      "actions" : [ {
+        "property" : "executeProcessAction",
+        "actionName" : null,
+        "actionParams" : [ "nx902密码验证流程" ]
+      }, {
+        "property" : "executeProcessAction",
+        "actionName" : null,
+        "actionParams" : [ "nx07001流量畅爽包办理确认" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "swgg",
+      "output" : [ "是否开通上网功能" ]
+    }
+  } ]
+}

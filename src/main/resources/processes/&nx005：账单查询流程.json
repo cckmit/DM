@@ -1,0 +1,388 @@
+{
+  "name" : "&nx005：账单查询流程",
+  "init_step" : "isHaveMonth1",
+  "steps" : [ {
+    "property" : "paramASRStep",
+    "name" : "isHaveMonth1",
+    "transitions" : [ {
+      "condition" : "true",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "isMonthInRange1" ]
+      } ]
+    } ],
+    "helpReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx00501help"
+    },
+    "reListenReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx0050101a"
+    },
+    "noMatch" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx00501nomatch1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx00501nomatch2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx00501error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "noInput" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx00501timeout1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx00501timeout2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx00501error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "jumpOut" : true,
+    "noParamReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx0050101a"
+    },
+    "checkParamJs" : null,
+    "bindParam" : "month"
+  }, {
+    "property" : "paramASRStep",
+    "name" : "isHaveMonth2",
+    "transitions" : [ {
+      "condition" : "true",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "isMonthInRange2" ]
+      } ]
+    } ],
+    "helpReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx00501help"
+    },
+    "reListenReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx0050101b"
+    },
+    "noMatch" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx00501nomatch1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx00501nomatch2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx00501error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "noInput" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx00501timeout1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx00501timeout2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx00501error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "jumpOut" : true,
+    "noParamReply" : null,
+    "checkParamJs" : null,
+    "bindParam" : "month"
+  }, {
+    "property" : "paramASRStep",
+    "name" : "isHaveMonth3",
+    "transitions" : [ {
+      "condition" : "true",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "isMonthInRange3" ]
+      } ]
+    } ],
+    "helpReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx00501help"
+    },
+    "reListenReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx0050101b"
+    },
+    "noMatch" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx00501nomatch1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx00501nomatch2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx00501error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "noInput" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx00501timeout1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx00501timeout2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx00501error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "jumpOut" : true,
+    "noParamReply" : null,
+    "checkParamJs" : null,
+    "bindParam" : "month"
+  }, {
+    "property" : "jsStep",
+    "name" : "isMonthInRange1",
+    "transitions" : [ {
+      "condition" : "monthInRange == false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx0050101b" ]
+      }, {
+        "property" : "clearParamValue",
+        "actionName" : null,
+        "actionParams" : [ "month" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "isHaveMonth2" ]
+      } ]
+    }, {
+      "condition" : "monthInRange == true",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "isHaveBillInfo" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "script" : "monthInRange = isMonthRange(month)"
+  }, {
+    "property" : "jsStep",
+    "name" : "isMonthInRange2",
+    "transitions" : [ {
+      "condition" : "monthInRange == false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx0050101b" ]
+      }, {
+        "property" : "clearParamValue",
+        "actionName" : null,
+        "actionParams" : [ "month" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "isHaveMonth3" ]
+      } ]
+    }, {
+      "condition" : "monthInRange == true",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "isHaveBillInfo" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "script" : "monthInRange = isMonthRange(month)"
+  }, {
+    "property" : "jsStep",
+    "name" : "isMonthInRange3",
+    "transitions" : [ {
+      "condition" : "monthInRange == false",
+      "actions" : [ {
+        "property" : "synthesisReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "抱歉输入错误次数过多,将跳到主菜单" ]
+      }, {
+        "property" : "clearParamValue",
+        "actionName" : null,
+        "actionParams" : [ "month" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "monthInRange == true",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "isHaveBillInfo" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "script" : "monthInRange = isMonthRange(month)"
+  }, {
+    "property" : "APIStep",
+    "name" : "isHaveBillInfo",
+    "transitions" : [ {
+      "condition" : "isHaveBillInfo.是否有账单信息 == false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx005_02" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isHaveBillInfo.是否有账单信息==true",
+      "actions" : [ {
+        "property" : "synthesisReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "$isHaveBillInfo.tts_billcontent$" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "isStopService" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "month" : "$month$"
+      },
+      "functionName" : "zdcx",
+      "output" : [ "是否有账单信息", "累计消费", "日期", "套餐及固定费", "语音通信费", "上网费", "短信/彩信费", "增值业务费", "代收业务费", "其他费用", "优惠减免", "billcontent", " tts_billcontent" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "isStopService",
+    "transitions" : [ {
+      "condition" : "isStopService.是否停机 == true",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx005_01" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "seedMseeage" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "tjpd",
+      "output" : [ "是否停机", "停机原因" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "seedMseeage",
+    "transitions" : [ ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "content" : "$isHaveBillInfo.billcontent$"
+      },
+      "functionName" : "dxxf",
+      "output" : [ ]
+    }
+  } ]
+}

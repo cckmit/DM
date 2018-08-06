@@ -1,0 +1,148 @@
+{
+  "name" : "nx05802流量变更b",
+  "init_step" : "changeLiuliang",
+  "steps" : [ {
+    "property" : "commandASRStep",
+    "name" : "changeLiuliang",
+    "transitions" : [ {
+      "condition" : "command=='返回'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "command=='确认'",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "isSuccessed" ]
+      } ]
+    } ],
+    "helpReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx05802help"
+    },
+    "reListenReply" : {
+      "interrupt" : true,
+      "property" : "synthesis",
+      "content" : "您正使用的是$isChangedTaoCan.正使用的流量包$，是否需要变更为50元2G流量包。"
+    },
+    "noMatch" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx05802nomatch1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx05802nomatch2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx05802error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "noInput" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx05802timeout1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx05802timeout2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx05802error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "jumpOut" : true,
+    "noParamReply" : {
+      "interrupt" : true,
+      "property" : "synthesis",
+      "content" : "您正使用的是$isChangedTaoCan.正使用的流量包$，是否需要变更为50元2G流量包。"
+    },
+    "checkParamJs" : null,
+    "commandList" : [ "返回", "确认" ],
+    "matchedCommand" : ""
+  }, {
+    "property" : "APIStep",
+    "name" : "isSuccessed",
+    "transitions" : [ {
+      "condition" : "isSuccessed.失败原因=='余额不足' && isSuccessed.办理成功==false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx05802_02" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isSuccessed.办理成功==false && isSuccessed.失败原因=='其他失败原因'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx05802_03" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more6" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isSuccessed.办理成功==true",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx05802_01" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "nodeName" : "$business$",
+        "action" : "2",
+        "effectType" : "下月生效",
+        "command" : "$command$"
+      },
+      "functionName" : "llbbl",
+      "output" : [ "办理成功", "失败原因" ]
+    }
+  } ]
+}

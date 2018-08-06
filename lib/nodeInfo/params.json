@@ -1,0 +1,77 @@
+
+	[{
+		"name": "tel",
+		"param_reply": [],
+		"defaultFunction": [],
+		"type": "",
+		"scope": "global",
+		"runtime": "global"
+	},
+	{
+		"name": "serviceTelephone",
+		"param_reply": [],
+		"defaultFunction": [],
+		"type": "",
+		"scope": "global",
+		"runtime": "global"
+	},
+	{
+		"name": "month",
+		"param_reply": [],
+		"defaultFunction": [],
+		"type": "月份",
+		"scope": "global",
+		"runtime": "local"
+	},
+	{
+		"name": "idCard",
+		"param_reply": [],
+		"defaultFunction": [],
+		"type": "身份证",
+		"scope": "global",
+		"runtime": "local"
+	},
+	{
+		"name": "password",
+		"param_reply": [],
+		"defaultFunction": [],
+		"type": "密码",
+		"scope": "global",
+		"runtime": "global"
+	},
+	{
+		"name": "new_password",
+		"param_reply": [],
+		"defaultFunction": [],
+		"type": "密码",
+		"scope": "global",
+		"runtime": "local"
+	},
+	{
+		"name": "new_password_confirm",
+		"param_reply": [],
+		"defaultFunction": [],
+		"type": "密码",
+		"scope": "global",
+		"runtime": "local"
+	},
+	{
+		"name": "date",
+		"param_reply": [{
+			"interrupt": "true",
+			"property": "synthesis",
+			"content": "请问您要查询哪天的天气。"
+		}],
+		"defaultFunction": [],
+		"type": "日期",
+		"scope": "local",
+		"runtime": "local"
+	},
+	{
+		"name": "mobileNumber",
+		"param_reply": [],
+		"defaultFunction": [],
+		"type": "手机号",
+		"scope": "global",
+		"runtime": "local"
+	}]

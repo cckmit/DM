@@ -1,0 +1,126 @@
+{
+  "name" : "nx023_其他优惠介绍",
+	"onEnterAction": [{
+		"actionParams": ["false",
+		"nx023_lb"],
+		"property": "broadcastReply"
+	}],
+	"init_step": "isStopService",
+	"steps": [{
+		"property": "APIStep",
+		"name": "isStopService",
+		"transitions": [{
+			"condition": "isStopService.是否停机==true",
+			"actions": [{
+				"property": "executeStepAction",
+				"actionParams": ["其他优惠介绍"]
+			}]
+		},
+		{
+			"condition": "isStopService.是否停机==false",
+			"actions": [{
+				"property": "executeStepAction",
+				"actionParams": ["sendMess"]
+			},
+			{
+				"property": "executeStepAction",
+				"actionParams": ["其他优惠介绍"]
+			}]
+		}],
+		"helpReply": null,
+		"reListenReply": null,
+		"functionEntity": {
+			"input": {
+				"tel": "$tel$"
+			},
+			"functionName": "tjpd",
+			"output": ["是否停机",
+			"停机原因"]
+		}
+	},
+	{
+		"property": "APIStep",
+		"name": "sendMess",
+		"transitions": [],
+		"helpReply": null,
+		"reListenReply": null,
+		"functionEntity": {
+			"input": {
+				"tel": "$tel$",
+				"content": "尊敬的客户，您好！中国移动4G飞享套餐语音通话、上网流量优惠组合，18元至588元共10档可选，套餐内各档次流量赠送从100兆至不限量。档次更丰富，价格更优惠。【中国移动】"
+			},
+			"functionName": "dxxf",
+			"output": []
+		}
+	},
+	{
+		"property": "commandASRStep",
+		"name": "其他优惠介绍",
+		"transitions": [{
+			"condition": "command=='重听'",
+			"actions": [{
+				"property": "synthesisReply",
+				"actionParams": [true,
+				"中国移动4G飞享套餐语音通话、上网流量优惠组合，18元至588元共10档可选，套餐内各档次流量赠送从100兆至不限量。档次更丰富，价格更优惠。"]
+			}]
+		},
+		{
+			"condition": "command=='返回'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		}],
+		"helpReply": null,
+		"reListenReply": {
+			"interrupt": true,
+			"property": "synthesis",
+			"content": "中国移动4G飞享套餐语音通话、上网流量优惠组合，18元至588元共10档可选，套餐内各档次流量赠送从100兆至不限量。档次更丰富，价格更优惠。"
+		},
+		"jumpOut": true,
+		"noParamReply": {
+			"interrupt": true,
+			"property": "synthesis",
+			"content": "中国移动4G飞享套餐语音通话、上网流量优惠组合，18元至588元共10档可选，套餐内各档次流量赠送从100兆至不限量。档次更丰富，价格更优惠。"
+		},
+		"checkParamJs": null,
+		"commandList": ["重听"],
+		"matchedCommand": ""
+	},
+	{
+		"property": "jsStep",
+		"name": "checkReply",
+		"transitions": [{
+			"condition": "isStopService.是否停机 == true && isStopService.停机原因 == '欠费停机'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more1"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		},
+		{
+			"condition": "true",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		}],
+		"helpReply": null,
+		"reListenReply": null,
+		"script": "true"
+	}]
+}

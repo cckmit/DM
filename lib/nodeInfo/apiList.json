@@ -1,0 +1,18 @@
+[{
+	"name": "查位置",
+	"input": {
+		"tel": "$tel$"
+	},
+	"functionName": "cxwz",
+	"output": ["城市"]
+},
+{
+	"name": "查天气",
+	"input": {
+		"tel": "$tel$",
+		"location": "$查位置.城市$",
+		"date": "$date$"
+	},
+	"functionName": "ctq",
+	"output": ["天气情况"]
+}]

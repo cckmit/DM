@@ -1,0 +1,145 @@
+{
+  "name" : "nx05701流量办理",
+  "init_step" : "chooseMonth",
+  "steps" : [ {
+    "property" : "commandASRStep",
+    "name" : "chooseMonth",
+    "transitions" : [ {
+      "condition" : "command=='返回'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "command=='当月生效' || command=='下月生效'",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionParams" : [ "isSuccessed" ]
+      } ]
+    } ],
+    "helpReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx05701help"
+    },
+    "reListenReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx05701_01"
+    },
+    "noMatch" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx05701nomatch1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx05701nomatch2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx05701error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "noInput" : {
+      "noMatchorinputlist" : [ {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx05701timeout1"
+      }, {
+        "interrupt" : true,
+        "property" : "broadcast",
+        "content" : "nx05701timeout2"
+      }, {
+        "interrupt" : false,
+        "property" : "broadcast",
+        "content" : "nx05701error3"
+      } ],
+      "actionlist" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      } ]
+    },
+    "jumpOut" : true,
+    "noParamReply" : {
+      "interrupt" : true,
+      "property" : "broadcast",
+      "content" : "nx05701_01"
+    },
+    "checkParamJs" : null,
+    "commandList" : [ "返回", "当月生效", "下月生效" ],
+    "matchedCommand" : ""
+  }, {
+    "property" : "APIStep",
+    "name" : "isSuccessed",
+    "transitions" : [ {
+      "condition" : "isSuccessed.失败原因=='余额不足' && isSuccessed.办理成功==false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx05701_04" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isSuccessed.办理成功==false && isSuccessed.失败原因=='其他失败原因'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx05701_05" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more6" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "command=='当月生效' && isSuccessed.办理成功==true",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx05701_02" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "command=='下月生效' && isSuccessed.办理成功==true",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx05701_03" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "nodeName" : "$currentMenu$",
+        "action" : "0",
+        "effectType" : "$command$"
+      },
+      "functionName" : "llbbl",
+      "output" : [ "办理成功", "失败原因" ]
+    }
+  } ]
+}

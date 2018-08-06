@@ -1,0 +1,48 @@
+{
+  "name" : "nx053上网流量办理",
+  "init_step" : "isHavePackage",
+  "steps" : [ {
+    "property" : "APIStep",
+    "name" : "isHavePackage",
+    "transitions" : [ {
+      "condition" : "isHavePackage.是否有上网套餐==false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx053_01" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx0530101a" ]
+      }, {
+        "property" : "setRelistenReplyAction",
+        "actionName" : null,
+        "actionParams" : [ "true", "broadcast", "nx0530101a" ]
+      } ]
+    }, {
+      "condition" : "isHavePackage.是否有上网套餐==true",
+      "actions" : [ {
+        "property" : "synthesisReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "$isHavePackage.ttsContent$" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx0530101b" ]
+      }, {
+        "property" : "setRelistenReplyAction",
+        "actionName" : null,
+        "actionParams" : [ "true", "broadcast", "nx0530101b" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "swtc",
+      "output" : [ "是否有上网套餐", "ttsContent" ]
+    }
+  } ]
+}

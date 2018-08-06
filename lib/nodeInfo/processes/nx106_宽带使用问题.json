@@ -1,0 +1,16 @@
+{
+	"name": "nx106_宽带使用问题",
+	"onEnterAction": [
+	{
+		"actionParams": ["false","nx106_lb"],
+		"property": "broadcastReply"
+	},
+	{
+		"actionParams": ["false","nx106_01"],
+		"property": "broadcastReply"
+	},
+	{
+		"actionParams": ["IVR_T54"],
+		"property": "backToServices"
+	}]
+}

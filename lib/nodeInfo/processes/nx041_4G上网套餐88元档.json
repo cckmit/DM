@@ -1,0 +1,106 @@
+{
+  "name" : "nx041_4G上网套餐88元档",
+  "onEnterAction": [
+    {
+      "actionParams": [
+        "false",
+        "nx041_lb"
+      ],
+      "property": "broadcastReply"
+    }
+  ],
+  "init_step" : "isStopService",
+  "steps" : [ {
+    "property" : "APIStep",
+    "name" : "isStopService",
+    "transitions" : [ {
+      "condition" : "isStopService.是否停机 == false ",
+      "actions" : [ {
+        "property" : "executeStepAction",
+        "actionParams" : [ "isRealName" ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '欠费停机'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx901_02" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '主动报停'",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx901_01" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == true && isStopService.停机原因 == '其他原因'",
+      "actions" : [ {
+        "property" : "synthesisReply",
+        "actionParams" : [ "false", "您好！您的手机由于$isStopService.其他原因之具体$原因！无法办理此业务！" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "tjpd",
+      "output" : [ "是否停机", "停机原因" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "isRealName",
+    "transitions" : [ {
+      "condition" : "isRealName.是否实名 == false ",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx041_01" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isRealName.是否实名 == true ",
+      "actions" : [ {
+        "property" : "executeProcessAction",
+        "actionParams" : [ "nx902密码验证流程" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionParams" : [ "false", "nx04101_01" ]
+      }, {
+        "property" : "executeProcessAction",
+        "actionParams" : [ "nx04101_4G上网88元套餐办理确认" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "smrz",
+      "output" : [ "是否实名" ]
+    }
+  } ]
+}

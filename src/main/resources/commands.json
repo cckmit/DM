@@ -1,0 +1,207 @@
+[{
+		"name": "返回主菜单",
+		"transitions": [{
+			"condition": "true",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		}]
+	},
+	{
+		"name": "重听",
+		"transitions": [{
+			"condition": "true",
+			"actions": [{
+				"property": "reListenAction",
+				"actionParams": []
+			}]
+		}]
+	},
+	{
+		"name": "业务清单",
+		"transitions": [{
+			"condition": "true",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_busi_all"]
+			}]
+		}]
+	},
+	{
+		"name": "帮助",
+		"transitions": [{
+			"condition": "true",
+			"actions": [{
+				"property": "helpAction",
+				"actionParams": []
+			}]
+		}]
+	},
+	{
+		"name": "确认",
+		"transitions": []
+	},
+	{
+		"name": "有效期12个月",
+		"transitions": []
+	},
+	{
+		"name": "当月生效",
+		"transitions": []
+	},
+	{
+		"name": "下月生效",
+		"transitions": []
+	},
+	{
+		"name": "退出",
+		"transitions": [{
+			"condition": "_stateMachine.currentState.id != 'root'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		},
+		{
+			"condition": "_stateMachine.currentState.id == 'root'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["false",
+				"nx_quit_ivr"]
+			},
+			{
+				"property": "backToServices",
+				"actionParams": ["IVR MENU"]
+			}]
+		}]
+	},
+	{
+		"name": "结束语",
+		"transitions": [{
+			"condition": "_stateMachine.currentState.id == 'root'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["false",
+				"nx_main_jw3"]
+			},
+			{
+				"property": "backToServices",
+				"actionParams": ["hangUp"]
+			}]
+		}]
+	},
+	{
+		"name": "友好问候",
+		"transitions": [{
+			"condition": "_stateMachine.currentState.id == 'root'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_main_jw1"]
+			}]
+		}]
+	},
+	{
+		"name": "感谢",
+		"transitions": [{
+			"condition": "_stateMachine.currentState.id == 'root'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_main_jw2"]
+			}]
+		}]
+	},
+	{
+		"name": "机器人质疑",
+		"transitions": [{
+			"condition": "_stateMachine.currentState.id == 'root'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_main_jw4"]
+			}]
+		}]
+	},
+	{
+		"name": "批评",
+		"transitions": [{
+			"condition": "_stateMachine.currentState.id == 'root'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["false",
+				"nx_main_jw5"]
+			},
+			{
+				"property": "backToServices",
+				"actionParams": ["IVR MENU"]
+			}]
+		}]
+	},
+	{
+		"name": "业务咨询",
+		"transitions": [{
+			"condition": "_stateMachine.currentState.id == 'root'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_main_jw6"]
+			}]
+		}]
+	},
+	{
+		"name": "简短词",
+		"transitions": [{
+			"condition": "_stateMachine.currentState.id == 'root'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_main_jw7"]
+			}]
+		}]
+	},
+	{
+		"name": "闲聊类",
+		"transitions": [{
+			"condition": "_stateMachine.currentState.id == 'root'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_main_jw8"]
+			}]
+		}]
+	},
+	{
+		"name": "其他业务",
+		"transitions": [{
+			"condition": "_stateMachine.currentState.id == 'root'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_main_jw6"]
+			}]
+		}]
+	},
+	{
+		"name": "敏感词",
+		"transitions": [{
+			"condition": "_stateMachine.currentState.id == 'root'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_dirty_reply"]
+			}]
+		}]
+	}]

@@ -1,0 +1,254 @@
+{
+"root" : {
+"id" : "root",
+"reply" : "您好，请问是***先生/女士/小姐吗",
+"transitions" : [ {
+"condition" : "是",
+"target" : "申请业务确认"
+}, {
+"condition" : "不是",
+"target" : "非申请资格人"
+} ],
+"noMatch" : [ "你好，我是您的智能机器人助理，请问有什么可以帮你？", "在这里，您可以直接用普通话说出您的要求，在对话过程中，您可以说返回或帮助，原有按键流程请按1，现在就说出您的需求吧！", "无法识别您的需求，请您确认您旁边是不是比较嘈杂，您说的是不是普通话或者语速是不是跟我一样不快也不慢，在这里您可以直接用普通话说出您的要求，如需指南请说帮助，现在说出您的需求吧", "很抱歉，我现在正处在学习阶段，暂时无法理解您的需求，下面我将为你转接原有按键流程，请稍后，继续使用智能机器人助理请按1，如需人工服务请按0" ],
+"noInput" : [ "你好，我是您的智能机器人助理，请用普通话说出您的需求，为了保证您的通话质量，请尽量不要使用免提。", "我没有听到您说话，您可以用普通话说出您的需求", "很抱歉，我正处于学习阶段，暂时无法理解您的需求，下面我将为您转接原有按键流程，请稍后，继续使用智能机器人助理请按1，如需人工服务请按0" ],
+"subStateNode" : [ {
+"id" : "非申请资格人",
+"reply" : "您好！我是合众人寿保险公司的客户服务人员，想电话拜访一下##先生/女士，请问他/她在吗？",
+"transitions" : [ {
+"condition" : "方便",
+"target" : "root"
+}, {
+"condition" : "不方便",
+"target" : "申请资格人不在"
+} ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+"id" : "申请资格人不在",
+"reply" : "您能告诉我请问什么时间能够联系到他/她吗？",
+"transitions" : [ {
+  "condition" : "具体时间",
+  "target" : "结束语",
+  "act" : "$记录 = 预约"
+}, {
+  "condition" : "不明确",
+  "target" : "结束语",
+  "act" : "$记录 = 本人不在"
+}, {
+  "condition" : "长期出差",
+  "target" : "结束语",
+  "act" : "$记录 = 长期出差"
+} ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+"id" : "非申请资格人要求回访",
+"reply" : "很抱歉，我们的回访需要对申请资格人进行的，那就不打扰您了，再见。 记录：无法回访",
+"transitions" : [ ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+"id" : "申请资格人不存在",
+"reply" : "请问您的电话是*****，对吗？",
+"transitions" : [ {
+"condition" : "是",
+"target" : "无此人"
+}, {
+"condition" : "否",
+"target" : "电话异常"
+} ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+"id" : "质疑保险人员身份",
+"reply" : "“我的工号是XXXXX，您可以拨打95515核实。”——视对方情况继续回访或预约。",
+"transitions" : [ ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+"id" : "申请资格在开车",
+"reply" : "您好！为了您的行车安全，我们稍候再与您联系。  记录：预约",
+"transitions" : [ ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+"id" : "约定时间未回访",
+"reply" : "很抱歉！给您带来的不便我们深表歉意！由于我们是根据电脑系统自动调取的数据进行回访，由于系统原因，没能及时将您的数据调取出来，所以没能按时拨打。非常抱歉，您看您现在方便接受回访吗？",
+"transitions" : [ ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+"id" : "无此人",
+"reply" : "“记录：无此人",
+"transitions" : [ ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+"id" : "电话异常",
+"reply" : "“记录：电话异常",
+"transitions" : [ ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+"id" : "申请业务确认",
+"reply" : "*先生/女士/小姐，您好！我是合众人寿保险公司的客户服务人员。请问您是在*年*月*日（委托他人）向我公司申请办理了**业务，对吗？",
+"transitions" : [ {
+"condition" : "是",
+"target" : "资金退回确认"
+} ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ {
+"id" : "业务不明确",
+"reply" : "您好，是您（或是您委托他人）办理了一份领钱的业务，您想起来了吗？",
+"transitions" : [ {
+"condition" : "是",
+"target" : "资金退回确认"
+}, {
+"condition" : "否",
+"target" : "资金大小提醒"
+} ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+"id" : "资金大小提醒",
+"reply" : "该业务涉及给付的金额是**元，您记起来了吗？",
+"transitions" : [ {
+"condition" : "是",
+"target" : "资金退回确认"
+}, {
+"condition" : "否",
+"target" : "无法回访"
+}, {
+"condition" : "否",
+"target" : "拒访"
+} ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+"id" : "无法回访",
+"reply" : "请您稍后再核实一下，现在暂时不打扰您了。记录：“无法回访",
+"transitions" : [ ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+"id" : "不接受回访",
+"reply" : "您好，为了维护好客户的相关权益，所以还是想跟您核对一下信息，如钱是否已到账、给付的金额是多少等，请您谅解。",
+"transitions" : [ {
+"condition" : "是",
+"target" : "资金退回确认"
+} ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+"id" : "拒访",
+"reply" : "记录：“拒访",
+"transitions" : [ ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+"id" : "资金退回确认",
+"reply" : "该业务涉及给付金额**，已经转入您提供的##银行帐户，请您注意查收。",
+"transitions" : [ {
+"condition" : "是",
+"target" : "结束语"
+} ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ {
+"id" : "核对账号",
+"reply" : "您的账号为*****。",
+"transitions" : [ ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+"id" : "业务分红咨询",
+"reply" : "您好，由于我们是专职回访人员，暂时查询不到您所提问的相关信息，建议您拨打95515咨询。",
+"transitions" : [ {
+"condition" : "接受",
+"target" : "结束语"
+}, {
+"condition" : "不接受",
+"target" : "root"
+} ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+"id" : "金额有疑问",
+"reply" : "您所说的与我们系统上显示的不一致，可能是由于您同时办理了多份业务，而系统暂未调取出来，我们本次对您回访的是这一份业务，所以只显示了这一份业务的情况，您可以再次核实一下，如确实发现金额不对，可与当地柜面联系或拨打95515咨询。",
+"transitions" : [ {
+"condition" : "接受",
+"target" : "结束语"
+}, {
+"condition" : "不接受",
+"target" : "记录否"
+} ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+"id" : "记录否",
+"reply" : "好的，非常感谢您的配合！您有任何保险服务需要，请直接联络我们的业务人员或者拨打我们的咨询服务电话95515。祝您幸福平安，再见。记录：否。",
+"transitions" : [ ],
+"noMatch" : [ ],
+"noInput" : [ ],
+"subStateNode" : [ ],
+"param" : [ ]
+}, {
+  "id" : "结束语",
+  "reply" : "好的，非常感谢您的配合！您有任何保险服务需要，请直接联络我们的业务人员或者拨打我们的咨询服务电话95515。祝您幸福平安，再见。",
+  "subStateNode" : [ ],
+  "transitions" : [ ],
+  "param" : [ "$记录"]
+} ],
+"param" : [ ]
+} ],
+"param" : [ ]
+} ],
+"param" : [ ]
+},
+"params" : [ {
+  "name": "$记录",
+  "type": null,
+  "defaultValue": null,
+  "defaultFunction": [],
+  "param_reply": "",
+  "param_query": "",
+  "param_query_params": []
+} ]
+}
+
+

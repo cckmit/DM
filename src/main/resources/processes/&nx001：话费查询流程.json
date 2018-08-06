@@ -1,0 +1,145 @@
+{
+  "name" : "&nx001：话费查询流程",
+  "init_step" : "isHaveFeeInfo",
+  "steps" : [ {
+    "property" : "APIStep",
+    "name" : "isHaveFeeInfo",
+    "transitions" : [ {
+      "condition" : "isHaveFeeInfo.是否有话费信息 == false ",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx001_01" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_more" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isHaveFeeInfo.是否有话费信息 == true && isHaveFeeInfo.是否欠费 == false",
+      "actions" : [ {
+        "property" : "synthesisReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "您当月累计消费为$isHaveFeeInfo.累计消费$,话费余额为$isHaveFeeInfo.话费余额$" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "isStopService" ]
+      } ]
+    }, {
+      "condition" : "isHaveFeeInfo.是否有话费信息 == true && isHaveFeeInfo.是否欠费 == true",
+      "actions" : [ {
+        "property" : "synthesisReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "您当月累计消费为$isHaveFeeInfo.累计消费$,话费余额为欠费$isHaveFeeInfo.话费余额$" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "isStopService" ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "hfcx",
+      "output" : [ "是否有话费信息", "是否欠费", "累计消费", "话费余额" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "isStopService",
+    "transitions" : [ {
+      "condition" : "isStopService.是否停机 == true",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == false && isHaveFeeInfo.是否欠费 == false",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx001_02" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "sendMess1" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    }, {
+      "condition" : "isStopService.是否停机 == false && isHaveFeeInfo.是否欠费 == true",
+      "actions" : [ {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "false", "nx001_02" ]
+      }, {
+        "property" : "executeStepAction",
+        "actionName" : "executeStep",
+        "actionParams" : [ "sendMess2" ]
+      }, {
+        "property" : "broadcastReply",
+        "actionName" : null,
+        "actionParams" : [ "true", "nx_busi_success" ]
+      }, {
+        "property" : "backToMainMenu",
+        "actionName" : "mainMenu",
+        "actionParams" : [ ]
+      } ]
+    } ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$"
+      },
+      "functionName" : "tjpd",
+      "output" : [ "是否停机", "停机原因" ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "sendMess1",
+    "transitions" : [ ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "content" : "尊敬的客户,您好,您当月累计消费$isHaveFeeInfo.累计消费$,话费余额为$isHaveFeeInfo.话费余额$。具体话费使用情况,请以宁夏移动出账账单为准。【服务快递！1008611话费流量直通车可为您提供便捷的话费余额及套餐剩余查询、流量套餐办理等服务,欢迎使用】10分满意源自我们百分努力！"
+      },
+      "functionName" : "dxxf",
+      "output" : [ ]
+    }
+  }, {
+    "property" : "APIStep",
+    "name" : "sendMess2",
+    "transitions" : [ ],
+    "helpReply" : null,
+    "reListenReply" : null,
+    "functionEntity" : {
+      "input" : {
+        "tel" : "$tel$",
+        "content" : "尊敬的客户,您好,您当月累计消费$isHaveFeeInfo.累计消费$,话费余额为-$isHaveFeeInfo.话费余额$。具体话费使用情况,请以宁夏移动出账账单为准。【服务快递！1008611话费流量直通车可为您提供便捷的话费余额及套餐剩余查询、流量套餐办理等服务,欢迎使用】10分满意源自我们百分努力！"
+      },
+      "functionName" : "dxxf",
+      "output" : [ ]
+    }
+  } ]
+}

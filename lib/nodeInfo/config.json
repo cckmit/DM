@@ -1,0 +1,28 @@
+{
+	"greeting": {
+		"reply": [{
+			"interrupt": "true",
+			"property": "broadcast",
+			"content": "nx_start"
+		}],
+		"init_process": ""
+	},
+	"exceptions":[{
+		"name": "boss异常",
+		"reply": {
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx_sys_error_02"
+		},
+	  "action":"artificialServices_error"
+	},
+	{
+		"name": "对话管理器异常",
+		"reply": {
+			"interrupt": "false",
+			"property": "broadcast",
+			"content": "nx_sys_error_01"
+		},
+	  "action":"IVR MENU_error"
+	}]
+}

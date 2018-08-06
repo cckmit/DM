@@ -1,0 +1,126 @@
+{
+  "name" : "nx104_108元全国版和家庭幸福套餐介绍",
+	"onEnterAction": [{
+		"actionParams": ["false",
+		"nx104_lb"],
+		"property": "broadcastReply"
+	}],
+	"init_step": "isStopService",
+	"steps": [{
+		"property": "APIStep",
+		"name": "isStopService",
+		"transitions": [{
+			"condition": "isStopService.是否停机==true",
+			"actions": [{
+				"property": "executeStepAction",
+				"actionParams": ["108元全国版和家庭幸福套餐介绍"]
+			}]
+		},
+		{
+			"condition": "isStopService.是否停机==false",
+			"actions": [{
+				"property": "executeStepAction",
+				"actionParams": ["sendMess"]
+			},
+			{
+				"property": "executeStepAction",
+				"actionParams": ["108元全国版和家庭幸福套餐介绍"]
+			}]
+		}],
+		"helpReply": null,
+		"reListenReply": null,
+		"functionEntity": {
+			"input": {
+				"tel": "$tel$"
+			},
+			"functionName": "tjpd",
+			"output": ["是否停机",
+			"停机原因"]
+		}
+	},
+	{
+		"property": "APIStep",
+		"name": "sendMess",
+		"transitions": [],
+		"helpReply": null,
+		"reListenReply": null,
+		"functionEntity": {
+			"input": {
+				"tel": "$tel$",
+				"content": "尊敬的客户，您好！108元全国版和家庭幸福套餐，月租费108元，全家共享百兆宽带，WIFI连接无限上网，同时独享百兆IPTV超清电视；国内手机上网流量不限量、包含200分钟国内语音通话。可添加1张副卡，跟家人一起共享语音和高速流量，流量达到15G限制网速。【中国移动】"
+			},
+			"functionName": "dxxf",
+			"output": []
+		}
+	},
+	{
+		"property": "commandASRStep",
+		"name": "108元全国版和家庭幸福套餐介绍",
+		"transitions": [{
+			"condition": "command=='重听'",
+			"actions": [{
+				"property": "synthesisReply",
+				"actionParams": [true,
+				"月租费108元，全家共享百兆宽带，WIFI连接无限上网，同时独享百兆IPTV超清电视；国内手机上网流量不限量、包含200分钟国内语音通话。可添加1张副卡，跟家人一起共享语音和高速流量，流量达到15G限制网速。不出门不排队，一个电话尊享宽带便捷办理、快速安装。如需办理请说“转人工”，如不需要请说“返回”。"]
+			}]
+		},
+		{
+			"condition": "command=='返回'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		}],
+		"helpReply": null,
+		"reListenReply": {
+			"interrupt": true,
+			"property": "synthesis",
+			"content": "月租费108元，全家共享百兆宽带，WIFI连接无限上网，同时独享百兆IPTV超清电视；国内手机上网流量不限量、包含200分钟国内语音通话。可添加1张副卡，跟家人一起共享语音和高速流量，流量达到15G限制网速。不出门不排队，一个电话尊享宽带便捷办理、快速安装。如需办理请说“转人工”，如不需要请说“返回”。"
+		},
+		"jumpOut": true,
+		"noParamReply": {
+			"interrupt": true,
+			"property": "synthesis",
+			"content": "月租费108元，全家共享百兆宽带，WIFI连接无限上网，同时独享百兆IPTV超清电视；国内手机上网流量不限量、包含200分钟国内语音通话。可添加1张副卡，跟家人一起共享语音和高速流量，流量达到15G限制网速。不出门不排队，一个电话尊享宽带便捷办理、快速安装。如需办理请说“转人工”，如不需要请说“返回”。"
+		},
+		"checkParamJs": null,
+		"commandList": ["重听"],
+		"matchedCommand": ""
+	},
+	{
+		"property": "jsStep",
+		"name": "checkReply",
+		"transitions": [{
+			"condition": "isStopService.是否停机 == true && isStopService.停机原因 == '欠费停机'",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more1"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		},
+		{
+			"condition": "true",
+			"actions": [{
+				"property": "broadcastReply",
+				"actionParams": ["true",
+				"nx_more"]
+			},
+			{
+				"property": "backToMainMenu",
+				"actionParams": []
+			}]
+		}],
+		"helpReply": null,
+		"reListenReply": null,
+		"script": "true"
+	}]
+}
