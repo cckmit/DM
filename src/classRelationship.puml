@@ -1,16 +1,7 @@
 @startuml
 
 
-package DM <<Frame>>{
-    class ApiPost
-    class DialogManager{
-     class StateMachineWrapper
 
-    }
-
-    class ProcessThread extends Thread
-    class StateMachine
-}
 
 package exception <<Frame>>{
     class BackToMainMenuException extends Exception
@@ -65,12 +56,6 @@ package entities.action <<Frame>>{
     class Transition
 }
 
-
-
-
-
-SparkSQLSessionManager *--"1" SQLEventListener : contains
-HiveThriftServer2 --> SQLTab : create
 
 
 @enduml

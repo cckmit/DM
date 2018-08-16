@@ -74,7 +74,7 @@ public class StateMachine {
     int noMatchOrInputCount = 0;
     public boolean clearNoMatchOrInputCount = true;
 
-    boolean isUseContext = false;
+    //boolean isUseContext = false;
 
     //用于多线程交互的condition
     private final ReentrantLock locker = new ReentrantLock(false);
@@ -85,8 +85,12 @@ public class StateMachine {
     protected final ScriptEngine jsEngine;
     protected Bindings bindings;
 
-    //最终的语义理解结果，可以是command或者stateNode，stateNode冲突时，赋值为冲突列表。noMatch的时候为空
+    //最终的语义理解结果，可以是command或者stateNode，stateNode冲突时，赋值为冲突回复。noMatch或者command的时候为当前节点
     List<String> finalSluResult = new ArrayList<>();
+
+    String action = "";
+    String target = "";
+    Map<String,String> slots;
 
     //api调用需要记录的参数，一通电话不变
     public ApiParamEntity apiParamEntity;
@@ -240,11 +244,11 @@ public class StateMachine {
             if (input.stateId.isEmpty() || !StateMachineModel.stateNodeMap.containsKey(input.stateId))
                 isNodeTransited = false;
         }
-        if (!isUseContext)//清空上一个状态参数
-            if (isNodeTransited){
-                clearStateData(lastState);
-                currentParm = null;
-            }
+
+        if (isNodeTransited){
+            clearStateData(lastState);
+            currentParm = null;
+        }
 
         if (input.slots != null){
             for (String str : input.slots.keySet()){
@@ -1014,6 +1018,54 @@ public class StateMachine {
         return ret;
 
     }
+
+    public sluResultPretreatEntity sluResultPretreat(SLUResult userInput){
+
+
+        sluResultPretreatEntity sluResultPretreatEntity = new sluResultPretreatEntity();
+
+        List<SLUResult> stateIDInput = new ArrayList<>();
+        List<SLUResult> commandInput = new ArrayList<>();
+        if (!userInput.stateId.isEmpty()){
+            stateIDInput.add(userInput);
+            StateNode stateNode = model.stateNodeMap.get(userInput.stateId);
+            if (stateNode != null){
+                if (stateNode.getActionList().size()>=1)
+                    setAction(stateNode.getActionList().get(0));
+                else setAction("");
+                if(stateNode.getTargetList().size()>=1)
+                    setTarget(stateNode.getTargetList().get(0));
+                else setTarget("");
+                if (stateNode.getSlots().size() != 0)
+                    setSlots(typeChange(stateNode.getSlots()));
+                else setSlots(null);
+            }
+        }
+        else if (!userInput.command.isEmpty()){
+            commandInput.add(userInput);
+            setAction("");
+            setTarget(userInput.command);
+            setSlots(null);
+        }
+        else if (!userInput.matchedTarget.isEmpty() || !userInput.matchedAction.isEmpty() || !userInput.slots.isEmpty()){
+            List<SLUResult> inheritSluResults = getMatchedStateFromActionTargetByInherit(userInput);
+            if (inheritSluResults.size() != 0)
+                stateIDInput.addAll(inheritSluResults);
+            else
+                stateIDInput.addAll(getMatchedStateFromActionTargetWithoutInherit(userInput));
+            logger.info(stateIDInput.toString());
+            setAction(userInput.matchedAction);
+            setTarget(userInput.matchedTarget);
+            setSlots(userInput.slots);
+        }
+
+        sluResultPretreatEntity.setCommandInput(commandInput);
+        sluResultPretreatEntity.setStateIDInput(stateIDInput);
+
+        return sluResultPretreatEntity;
+
+    }
+
     /**
      * description:对于输入的多个命令类型的理解结果，根据当前状态进行过滤，看能否解决命令的冲突，确定唯一一个命令作为最终理解结果
      * @Param: 多个命令类型的理解结果
@@ -1088,6 +1140,15 @@ public class StateMachine {
                 it.remove();
         }
         return true;
+    }
+
+    public boolean isNullInput(SLUResult userInput){
+        if (userInput == null)
+            return true;
+        if (userInput.stateId.equals("##") && userInput.slots.isEmpty())
+            return true;
+        return false;
+
     }
 
 
@@ -1303,6 +1364,11 @@ public class StateMachine {
         Set<String> ret = new HashSet<>();
         StateNode state = model.stateNodeMap.get(sluResult.stateId);
         if (state != null){
+            //该节点的slot中的变量
+            if (state.getSlots() != null)
+                for (Slot slot : state.getSlots()){
+                    ret.add(slot.getSlotKey());
+                }
             //reply中依赖的变量（递归查找）
             for (Reply reply : state.getReply()){
                 List<BasicParam> params = ContainParams(reply.getContent());
@@ -1526,6 +1592,136 @@ public class StateMachine {
 
     }
 
+    private boolean strictSlotMatch(Map<String, String> slotsNewSelect, Map<String, String> slotsCandicate){
+
+        for (String key:slotsCandicate.keySet()){
+            String valueNewSelect = slotsNewSelect.get(key);
+            String valueCandicate = slotsCandicate.get(key);
+
+            if(!(valueCandicate.equals(valueNewSelect) || (valueCandicate.isEmpty() && valueNewSelect == null) || (valueCandicate == null && valueNewSelect.isEmpty())))
+                return false;
+        }
+        return true;
+    }
+
+    //有交集则认为是match
+    private boolean slotMatch(Map<String, String> slotsNewSelect, Map<String, String> slotsCandicate){
+
+        boolean Intersecting = false;
+        for (String key:slotsCandicate.keySet()){
+            String valueNewSelect = slotsNewSelect.get(key);
+            String valueCandicate = slotsCandicate.get(key);
+
+            if (valueNewSelect != null && !valueNewSelect.isEmpty())
+                Intersecting = true;
+
+            if(valueCandicate!=null&&valueNewSelect!=null
+                    &&!valueCandicate.equals("")&&!valueNewSelect.equals("")
+                    &&!valueCandicate.equals(valueNewSelect))
+                return false;
+        }
+        if (!Intersecting)
+            return false;
+        return true;
+    }
+
+
+    private boolean strictMatch(StateNode stateNode, SLUResult sluResult){
+        boolean actionIsMatch = false;
+        boolean targetIsMatch = false;
+        boolean slotIsMatch;
+        if (stateNode.getActionList().contains(sluResult.matchedAction) || (sluResult.matchedAction.isEmpty() && stateNode.getActionList().size() == 0))
+            actionIsMatch = true;
+        if (stateNode.getTargetList().contains(sluResult.matchedTarget) || (sluResult.matchedTarget.isEmpty() && stateNode.getTargetList().size() == 0))
+            targetIsMatch = true;
+        Map<String, String> stateNodeSlot = typeChange(stateNode.getSlots());
+        slotIsMatch = strictSlotMatch(stateNodeSlot, sluResult.slots) && strictSlotMatch(sluResult.slots, stateNodeSlot);
+        if (actionIsMatch && targetIsMatch && slotIsMatch)
+            return true;
+        else return false;
+    }
+
+    private boolean match(StateNode stateNode, SLUResult sluResult){
+
+        boolean actionIsMatch = false;
+        boolean targetIsMatch = false;
+        boolean slotIsMatch = true;
+        if (stateNode.getActionList().contains(sluResult.matchedAction) || sluResult.matchedAction.isEmpty())
+            actionIsMatch = true;
+        if (stateNode.getTargetList().contains(sluResult.matchedTarget) || sluResult.matchedTarget.isEmpty())
+            targetIsMatch = true;
+        Map<String, String> stateNodeSlot = typeChange(stateNode.getSlots());
+        if (stateNodeSlot.size() == 0 && sluResult.slots.size() != 0)
+            slotIsMatch = false;
+        else if (sluResult.slots.size() == 0)
+            slotIsMatch = true;
+        else slotIsMatch = slotMatch(stateNodeSlot, sluResult.slots) && slotMatch(sluResult.slots, stateNodeSlot);
+        if (actionIsMatch && targetIsMatch && slotIsMatch)
+            return true;
+        else return false;
+
+    }
+
+
+
+
+
+
+    public List<SLUResult> getMatchedStateFromActionTargetWithoutInherit(SLUResult sluResult){
+        List<SLUResult> matchedStateNode = new ArrayList<>();
+        List<SLUResult> strictMatchedStateNode = new ArrayList<>();
+        for (String stateID : model.stateNodeMap.keySet()){
+            StateNode stateNode = model.stateNodeMap.get(stateID);
+            if(strictMatch(stateNode, sluResult))
+                strictMatchedStateNode.add(new SLUResult(stateID,sluResult.score,sluResult.slots));
+            else if (!stateNode.getId().equals("开通")&& !stateNode.getId().equals("咨询") && match(stateNode,sluResult))
+                matchedStateNode.add(new SLUResult(stateID,sluResult.score,sluResult.slots));
+        }
+        if (strictMatchedStateNode.size() != 0)
+            return strictMatchedStateNode;
+        else return matchedStateNode;
+    }
+
+    private Map<String,String> typeChange(List<Slot> slots){
+        Map<String, String> ret = new HashMap<>();
+        if (slots == null)
+            return new HashMap<>();
+        for (Slot slot : slots){
+            ret.put(slot.getSlotKey(),slot.getSlotValue());
+        }
+        return ret;
+    }
+
+    public List<SLUResult> getMatchedStateFromActionTargetByInherit(SLUResult sluResult){
+        List<SLUResult> ret;
+        SLUResult sluResultByInherit = new SLUResult();
+        sluResultByInherit.score = sluResult.score;
+
+        if (sluResult.matchedAction.isEmpty())
+            sluResultByInherit.matchedAction = action;
+        else sluResultByInherit.matchedAction = sluResult.matchedAction;
+        if (sluResult.matchedTarget.isEmpty())
+            sluResultByInherit.matchedTarget = target;
+        else sluResultByInherit.matchedTarget = sluResult.matchedTarget;
+        if (!sluResult.matchedAction.isEmpty() && !sluResult.matchedTarget.isEmpty())
+            sluResultByInherit.slots = sluResult.slots;
+        else sluResultByInherit.slots = getSlotByInherit(sluResult.slots);
+        logger.info(sluResultByInherit.toString());
+        ret = getMatchedStateFromActionTargetWithoutInherit(sluResultByInherit);
+        return ret;
+    }
+
+    private Map<String,String> getSlotByInherit(Map<String,String> currentSlot){
+        Map<String,String> ret = new HashMap<>();
+        ret.putAll(currentSlot);
+        for (String paramName : statementParamMap.keySet()){
+            Param param = statementParamMap.get(paramName);
+            if (!param.getName().equals("tel") && !param.getValue().isEmpty() && !ret.keySet().contains(paramName))
+                ret.put(paramName,param.getValue());
+        }
+        return ret;
+    }
+
 
 
 
@@ -1592,9 +1788,9 @@ public class StateMachine {
         this.conflictList = conflictList;
     }
 
-    public void setUseContext(boolean useContext) {
-        isUseContext = useContext;
-    }
+//    public void setUseContext(boolean useContext) {
+//        isUseContext = useContext;
+//    }
 
     public Map<String, Param> getStatementParamMap() {
         return statementParamMap;
@@ -1703,4 +1899,27 @@ public class StateMachine {
 
     }
 
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
+    public Map<String, String> getSlots() {
+        return slots;
+    }
+
+    public void setSlots(Map<String, String> slots) {
+        this.slots = slots;
+    }
 }

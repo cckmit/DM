@@ -1,5 +1,7 @@
 package entities;
 
+
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +13,17 @@ public class SLUResult {
 
     public  String ruleName;
 
-    public String ruleType;
+    public String ruleType;    // stateID或者是command
 
     public String stateId = "";
 
     public String command = "";
 
+    public String algorithmType = "";    //neuralNetwork或者match
+
+    public String matchedAction = "";
+
+    public String matchedTarget = "";
 
 
     // slots用于存储语义槽的名称-值,主要包含，event、userSelect、和相关的语义槽
@@ -44,17 +51,52 @@ public class SLUResult {
     }
 
 
-    public SLUResult(String ruleName,
+//    public SLUResult(String ruleName,
+//                     String ruleType,
+//                     double score,
+//                     Map<String, String> slots
+//    ) {
+//        this.ruleName = ruleName != null ? ruleName : "";
+//        this.ruleType = ruleType != null ? ruleType : "";
+//        if (this.ruleType.equals("stateNode"))
+//            stateId = ruleName;
+//        else if(this.ruleType.equals("command"))
+//            command = ruleName;
+//        this.slots = slots != null ? slots : new HashMap<String, String>();
+//        this.score = score;
+//
+//    }
+
+    public SLUResult(String algorithmType,
+                     String ruleName,
                      String ruleType,
+                     String action,
+                     String target,
                      double score,
                      Map<String, String> slots
     ) {
+        this.algorithmType = algorithmType != null ? algorithmType : "";
         this.ruleName = ruleName != null ? ruleName : "";
         this.ruleType = ruleType != null ? ruleType : "";
-        if (this.ruleType.equals("stateNode"))
-            stateId = ruleName;
-        else if(this.ruleType.equals("command"))
-            command = ruleName;
+        if (this.algorithmType.equals("match")){
+            if (this.ruleType.equals("stateNode"))
+                stateId = ruleName;
+            else if(this.ruleType.equals("command"))
+                command = ruleName;
+        }else if (this.algorithmType.equals("neuralNetwork")){
+            if (this.ruleType.equals("命令"))
+                command = target;
+            else if(this.ruleType.equals("业务"))
+            {
+                if (action.equals("空"))
+                    matchedAction = "";
+                else matchedAction = action;
+                if (target.equals("空"))
+                    matchedTarget = "";
+                else matchedTarget = target;
+            }
+        }else ;
+
         this.slots = slots != null ? slots : new HashMap<String, String>();
         this.score = score;
 

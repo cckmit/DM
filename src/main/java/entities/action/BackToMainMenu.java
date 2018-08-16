@@ -4,6 +4,8 @@ import DM.StateMachine;
 import entities.Reply;
 import exception.BackToMainMenuException;
 
+import java.util.HashMap;
+
 /**
  * 返回主菜单的类，主要工作是结束等待的线程，返回到主菜单
  */
@@ -21,6 +23,9 @@ public class BackToMainMenu extends Action {
         try {
             stateMachine.setCurrentState(stateMachine.root);
             stateMachine.setNoMatchOrInputCount(0);
+//            stateMachine.setAction("");
+//            stateMachine.setTarget("");
+//            stateMachine.setSlots(new HashMap<>());
             //stateMachine.setRelistenReply(null);
             onEnter(stateMachine);
             //有处于终端的线程，杀死该线程

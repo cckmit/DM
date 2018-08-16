@@ -1,6 +1,7 @@
 package DM;
 
 
+import ch.qos.logback.core.joran.conditional.ElseAction;
 import com.google.common.base.Joiner;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -65,7 +66,7 @@ public class DialogManager {
 
 
 
-    boolean isUseContext = false;
+    //boolean isUseContext = false;
 
     /**
      * description: 类的构造函数，主要是用CacheBuilder来管理状态机，生成状态机管理的cache
@@ -121,7 +122,7 @@ public class DialogManager {
     protected StateMachine getNewStateMachine(String userID) {
         try {
             StateMachine stateMachine = new StateMachine(stateMachineModel);
-            stateMachine.setUseContext(isUseContext);
+//            stateMachine.setUseContext(isUseContext);
             return stateMachine;
 
         }catch (Exception e){
@@ -133,12 +134,69 @@ public class DialogManager {
 
 
 
+//    /**
+//     * description: 对外接口函数，输入为理解结果，经过对话流程，经过查询判断等，返回最后给客户的回复、action等内容
+//     * @Param: 参数为用户id、理解结果、nomatch和noinput标记、冲突回复，电话号码，透传参数
+//     * @return 对话返回的回复内容、action等信息
+//     */
+//    public  SysAction feedUserInput(String userID, List<SLUResult> userInput,
+//                                    String note,String conflictReply,String telephoneNumber,Map<String,String> crsParam) throws Exception{
+//
+//
+//        StateMachine stateMachine = getStateMachineOf(userID);
+//        stateMachine.newApiParamEntity(userID, crsParam);
+//
+//
+//        stateMachine.setClearNoMatchOrInputCount(true);
+//
+//
+//        if (stateMachine.deleteNullInput(userInput) && userInput.size()==0){
+//            stateMachine.noMatchOrInput(note);
+//            return getSysAction(stateMachine);
+//        }
+//
+//        List<SLUResult> stateIDInput = new ArrayList<>();
+//        List<SLUResult> commandInput = new ArrayList<>();
+//        for (SLUResult sluResult : userInput){
+//            if (!sluResult.stateId.isEmpty())
+//                stateIDInput.add(sluResult);
+//            else if (!sluResult.command.isEmpty())
+//                commandInput.add(sluResult);
+//            else ;
+//        }
+//
+//        if (commandInput.size() != 0 && stateMachine.determineNextCommand(commandInput))
+//            return getSysAction(stateMachine);
+//
+//
+//        if (stateMachine.deleteNullInput(stateIDInput) && stateIDInput.size() ==0){
+//            stateMachine.noMatchOrInput("noMatch");
+//            return getSysAction(stateMachine);
+//        }
+//
+//        SLUResult determineSLU = stateMachine.determineNextState(stateIDInput,conflictReply);
+//        if(determineSLU!=null){
+//            stateMachine.setFinalSluResult(determineSLU);
+//            stateMachine.transitToStateWithData(determineSLU,telephoneNumber,true);
+//        }
+//
+//        else if(!conflictReply.equals("")){
+//            List<Reply> replies = new ArrayList<>();
+//            replies.add(new Reply(false,"synthesis",conflictReply));
+//            stateMachine.setDialogReply(replies,null,null,stateMachine.isKeypad());
+//        }
+//
+//
+//        return  getSysAction(stateMachine);
+//
+//    }
+
     /**
      * description: 对外接口函数，输入为理解结果，经过对话流程，经过查询判断等，返回最后给客户的回复、action等内容
      * @Param: 参数为用户id、理解结果、nomatch和noinput标记、冲突回复，电话号码，透传参数
      * @return 对话返回的回复内容、action等信息
      */
-    public  SysAction feedUserInput(String userID, List<SLUResult> userInput,
+    public  SysAction feedUserInput(String userID, SLUResult userInput,
                                     String note,String conflictReply,String telephoneNumber,Map<String,String> crsParam) throws Exception{
 
 
@@ -149,36 +207,28 @@ public class DialogManager {
         stateMachine.setClearNoMatchOrInputCount(true);
 
 
-
-
-        if (stateMachine.deleteNullInput(userInput) && userInput.size()==0){
+        if (stateMachine.isNullInput(userInput)){
             stateMachine.noMatchOrInput(note);
             return getSysAction(stateMachine);
         }
 
-        List<SLUResult> stateIDInput = new ArrayList<>();
-        List<SLUResult> commandInput = new ArrayList<>();
-        for (SLUResult sluResult : userInput){
-            if (!sluResult.stateId.isEmpty())
-                stateIDInput.add(sluResult);
-            else if (!sluResult.command.isEmpty())
-                commandInput.add(sluResult);
-            else ;
-        }
+        sluResultPretreatEntity sluResultPretreatEntity = stateMachine.sluResultPretreat(userInput);
 
-        if (commandInput.size() != 0 && stateMachine.determineNextCommand(commandInput))
+
+
+        if (sluResultPretreatEntity.getCommandInput().size() != 0 && stateMachine.determineNextCommand(sluResultPretreatEntity.getCommandInput()))
             return getSysAction(stateMachine);
 
 
-        if (stateMachine.deleteNullInput(stateIDInput) && stateIDInput.size() ==0){
+        if (stateMachine.deleteNullInput(sluResultPretreatEntity.getStateIDInput()) && sluResultPretreatEntity.getStateIDInput().size() ==0){
             stateMachine.noMatchOrInput("noMatch");
             return getSysAction(stateMachine);
         }
 
-        SLUResult determineSLU = stateMachine.determineNextState(stateIDInput,conflictReply);
+        SLUResult determineSLU = stateMachine.determineNextState(sluResultPretreatEntity.getStateIDInput(),conflictReply);
         if(determineSLU!=null){
             stateMachine.setFinalSluResult(determineSLU);
-            stateMachine.transitToStateWithData(determineSLU,telephoneNumber,true);
+            stateMachine.transitToStateWithData(determineSLU, telephoneNumber, true);
         }
 
         else if(!conflictReply.equals("")){
@@ -189,6 +239,7 @@ public class DialogManager {
 
 
         return  getSysAction(stateMachine);
+
     }
 
     /**
@@ -232,14 +283,14 @@ public class DialogManager {
         if (stateMachine.getCurrentState().getConflictList() != null && !stateMachine.getCurrentState().getConflictList().isEmpty() && stateMachine.conflictList.isEmpty()) //处理冲突节点是语料导进来的情况
             stateMachine.conflictList.addAll(stateMachine.getConflictSluListFromString(stateMachine.getCurrentState().getConflictList()));
         return new SysAction(stateMachine.getReply(),stateMachine.getCurrentState().getId(),stateMachine.getCurrentState(), null,stateMachine.getQuery(), stateMachine.getParam(),
-                stateMachine.isNodeTransited,stateMachine.keypad,stateMachine.finalSluResult);
+                stateMachine.isNodeTransited,stateMachine.keypad,stateMachine.finalSluResult,stateMachine.getAction(),stateMachine.getTarget(),stateMachine.slots);
     }
     /**
      * description: 配置对话管理的一些参数
      * @Param: 是否用上下文、调用业务服务器的网址、超时时间
      */
-    public void setConfig(boolean isUseContext,String url,int timeout){
-        this.isUseContext = isUseContext;
+    public void setConfig(String url,int timeout){
+//        this.isUseContext = isUseContext;
         this.url = url;
         this.timeout = timeout;
     }

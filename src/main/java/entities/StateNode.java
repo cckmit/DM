@@ -57,6 +57,10 @@ public class StateNode {
 
     List<String> conflictList;
 
+    List<String> actionList;
+    List<String> targetList;
+    List<Slot> slots;
+
 
 
     public StateNode(){
@@ -76,7 +80,10 @@ public class StateNode {
                      @JsonProperty("init_process") String  init_process,
                      @JsonProperty("helpReply") Reply  helpReply,
                      @JsonProperty("reListenReply") Reply  reListenReply,
-                     @JsonProperty("conflictList") List<String>  conflictList) {
+                     @JsonProperty("conflictList") List<String>  conflictList,
+                     @JsonProperty("actionList") List<String>  actionList,
+                     @JsonProperty("targetList") List<String>  targetList,
+                     @JsonProperty("slots") List<Slot>  slots) {
         this.id = id != null ? id : "";
         this.reply = reply != null ? reply : new ArrayList<>();
         this.query = query != null ? query : "";
@@ -84,8 +91,11 @@ public class StateNode {
         this.noInput = noInput;
         this.subStateNode = children != null ? children : new ArrayList<>();
         this.params=params != null ? params : new ArrayList<>() ;
-        this.conflictList=conflictList != null ? conflictList : new ArrayList<>() ;
+        this.conflictList = conflictList != null ? conflictList : new ArrayList<>() ;
+        this.actionList = actionList != null ? actionList : new ArrayList<>() ;
+        this.targetList = targetList != null ? targetList : new ArrayList<>() ;
         this.commandsTransitions = commandsTransitions != null ? commandsTransitions : new ArrayList<>();
+        this.slots = slots != null ? slots : new ArrayList<>();
         this.init_process = init_process!= null ? init_process : "";
         this.helpReply = helpReply;
         this.reListenReply = reListenReply;
@@ -250,6 +260,30 @@ public class StateNode {
 
     public void setCommandsTransitions(List<JsonCommand> commandsTransitions) {
         this.commandsTransitions = commandsTransitions;
+    }
+
+    public List<String> getActionList() {
+        return actionList;
+    }
+
+    public void setActionList(List<String> actionList) {
+        this.actionList = actionList;
+    }
+
+    public List<String> getTargetList() {
+        return targetList;
+    }
+
+    public void setTargetList(List<String> targetList) {
+        this.targetList = targetList;
+    }
+
+    public List<Slot> getSlots() {
+        return slots;
+    }
+
+    public void setSlots(List<Slot> slots) {
+        this.slots = slots;
     }
 
     public String toString(){

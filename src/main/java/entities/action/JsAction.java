@@ -15,9 +15,8 @@ public class JsAction extends Action{
     public void run(StateMachine stateMachine) throws Exception{
         try {
             onEnter(stateMachine);
-
             //System.out.print(stateMachine.getJsEngine().eval("password"));
-            System.out.print(stateMachine.getJsEngine().eval(actionParams.get(0), stateMachine.getBindings()));
+            stateMachine.getJsEngine().eval(actionParams.get(0), stateMachine.getBindings());
             System.out.print(stateMachine.getJsEngine().eval("password"));
             stateMachine.updataParamInBindings();
             //stateMachine.getBindings().

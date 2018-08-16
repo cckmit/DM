@@ -2,6 +2,7 @@ package entities;
 
 
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,10 @@ public class SysAction {
     public final boolean ifTransited;
     public boolean keypad;
     public List<String> finalSluResult;
+    public final String action;
+    public final String target;
+    public final Map<String,String> slots;
+
 
 
 
@@ -63,7 +68,10 @@ public class SysAction {
                      Map<String, String> params,
                      boolean ifTransited,
                      boolean keypad,
-                     List<String> finalSluResult) {
+                     List<String> finalSluResult,
+                     String action,
+                     String target,
+                     Map<String,String> slots) {
         this.reply = reply;
         this.stateID = stateID;
         this.currentState = currentState;
@@ -73,6 +81,9 @@ public class SysAction {
         this.ifTransited=ifTransited;
         this.keypad = keypad;
         this.finalSluResult = finalSluResult;
+        this.action = action;
+        this.target = target;
+        this.slots = slots;
     }
 
 
