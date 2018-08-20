@@ -8,19 +8,19 @@ public class sluResultPretreatEntity {
     List<SLUResult> stateIDInput = new ArrayList<>();
     List<SLUResult> commandInput = new ArrayList<>();
 
-    public List<entities.SLUResult> getStateIDInput() {
+    public List<SLUResult> getStateIDInput() {
         return stateIDInput;
     }
 
-    public void setStateIDInput(List<entities.SLUResult> stateIDInput) {
+    public void setStateIDInput(List<SLUResult> stateIDInput) {
         this.stateIDInput = stateIDInput;
     }
 
-    public List<entities.SLUResult> getCommandInput() {
+    public List<SLUResult> getCommandInput() {
         return commandInput;
     }
 
-    public void setCommandInput(List<entities.SLUResult> commandInput) {
+    public void setCommandInput(List<SLUResult> commandInput) {
         this.commandInput = commandInput;
     }
 }

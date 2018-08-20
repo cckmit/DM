@@ -95,7 +95,11 @@ public class SLUResult {
                     matchedTarget = "";
                 else matchedTarget = target;
             }
-        }else ;
+        }else{
+            if (ruleName.equals("##") && this.algorithmType.isEmpty()){
+                this.stateId = ruleName;
+            }
+        }
 
         this.slots = slots != null ? slots : new HashMap<String, String>();
         this.score = score;
