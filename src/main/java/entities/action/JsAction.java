@@ -17,7 +17,6 @@ public class JsAction extends Action{
             onEnter(stateMachine);
             //System.out.print(stateMachine.getJsEngine().eval("password"));
             stateMachine.getJsEngine().eval(actionParams.get(0), stateMachine.getBindings());
-            System.out.print(stateMachine.getJsEngine().eval("password"));
             stateMachine.updataParamInBindings();
             //stateMachine.getBindings().
             //System.out.print(stateMachine.getBindings().get("password"));

@@ -24,7 +24,7 @@ public class ProcessThread extends Thread{
     StateMachine stateMachine;
     private final ReentrantLock locker = new ReentrantLock(false);
     Condition condition;
-    Process process;
+    entities.Process process;
     //线程是否在终端状态
     boolean whetherInterrupt = false;
 

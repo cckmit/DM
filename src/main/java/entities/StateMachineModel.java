@@ -158,6 +158,7 @@ public class StateMachineModel{
         this.processes = generateProcesses(processesPath);
         this.config = getModelFromInternelJson(configPath, Config.class);
         this.apis = getListModelFromJson(apiPath, FunctionEntity.class);
+        stateNodeMap.clear();
         generateStateNodeMap(root);
         generateApiMap(apis);
     }
@@ -337,7 +338,7 @@ public class StateMachineModel{
 
     public static void main(String[] args) throws IOException {
         try {
-            StateMachineModel model = StateMachineModel.getModelFromInternelJson("lib/nodeInfo/nodeInfo.json", StateMachineModel.class);
+            StateMachineModel model = StateMachineModel.getModelFromInternelJson("C:\\Users\\fxb\\Documents\\nodeInfo\\nodeInfo.json", StateMachineModel.class);
             System.out.println(model);
         }catch (Exception e){
             e.printStackTrace();

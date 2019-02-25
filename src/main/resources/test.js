@@ -17,7 +17,7 @@ function isMonthRange(month) {
  if(input>new Date())
   return false
 
- input.setMonth(input.getMonth()+6)
+ input.setMonth(input.getMonth()+13)
  return input>new Date()
 
 }

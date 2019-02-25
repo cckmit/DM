@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.script.*;
+import java.io.Serializable;
 import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -31,8 +32,8 @@ import java.util.regex.Pattern;
 /**
  * 状态机类
  */
-public class StateMachine {
-
+public class StateMachine implements Serializable {
+    private static final long serialVersionUID = 1L;
     final Logger logger = LoggerFactory.getLogger(this.getClass());
     public final StateMachineModel model;
     public final StateNode root;
@@ -254,9 +255,6 @@ public class StateMachine {
                 String value = input.slots.get(str);
                 if (str.equals("流量数")) {
                     str = "liuliang";
-                }
-                if (str.equals("流量数g")) {
-                    str = "liuliangg";
                 }
                 if (str.equals("金额")) {
                     str = "cost";
@@ -518,6 +516,7 @@ public class StateMachine {
                 }
             }
             //处理隐藏的帮助和重听
+            logger.info("dealHiddenCommand开始执行");
             if (dealHiddenCommand(commandInput, candidateRelistenReply, candidateHelpReply))
                 return true;
         } catch (BackToMainMenuException ex) {  //异常处理
@@ -588,6 +587,9 @@ public class StateMachine {
     public void noMatchOrInput(String note) {
         clearNoMatchOrInputCount = false;
         //setFinalSluResult(note);
+        //nomatch和noinput情况下对状态机的action和target进行赋值
+        //setAction("");
+        //setTarget("其他");
         NoMatchOrInput noMatchOrInput = null;
         if (note != null && note.equals("noMatch")) {
             if (currentStep != null && currentStep.getNoMatch() != null)
@@ -620,6 +622,7 @@ public class StateMachine {
                 noMatchOrInput.setNoMatchorinputlist(replies);
             }
         }
+
         if (noMatchOrInputCount + 1 >= noMatchOrInput.getNoMatchorinputlist().size()) {
             noMatchOrInputCount = 0;
             setDialogReply(noMatchOrInput.getNoMatchorinputlist().get(noMatchOrInput.getNoMatchorinputlist().size() - 1), null, null);
@@ -1112,7 +1115,7 @@ public class StateMachine {
      * @return: 看能否解决命令的冲突，确定唯一一个命令作为最终理解结果
      */
     public boolean determineNextCommand(List<SLUResult> commandInput) {
-
+        logger.info("开始执行commandASRstep");
         //有正在等待的ASRStep
         if (commandInput.size() != 0 && processThread != null && processThread.isWhetherInterrupt() == true) {
             if (currentStep != null && currentStep.getClass().getSimpleName().equals("CommandASRStep")) {
@@ -1130,6 +1133,7 @@ public class StateMachine {
                     return true;
                 }
             }
+            logger.info("开始处理隐含得帮助和重听");
             //处理asrStep中的command,处理隐含的帮助和重听command
             if (currentStep != null && ASRStep.class.isAssignableFrom(currentStep.getClass())) {
                 ASRStep step = (ASRStep) currentStep;
@@ -1138,6 +1142,7 @@ public class StateMachine {
                     return true;
                 }
             }
+            logger.info("结束处理隐含得帮助和重听");
         }
 
         //如果当前有正在提问的param
@@ -1185,7 +1190,7 @@ public class StateMachine {
     public boolean isNullInput(SLUResult userInput) {
         if (userInput == null)
             return true;
-        if ((userInput.stateId.equals("##")||userInput.stateId.isEmpty()) && userInput.slots.isEmpty())
+        if (userInput.stateId.equals("##") && userInput.slots.isEmpty())
             return true;
         return false;
 
@@ -1591,6 +1596,8 @@ public class StateMachine {
                     statementParamMap.get(entry.getKey()).setValue((String) jsEngine.eval(entry.getKey()));
                 }
             }
+            statementParamMap.keySet().forEach(x->logger.info("打印statementParamMap的key:"+x+"和value:"+statementParamMap.get(x)));
+            bindings.keySet().forEach(x->logger.info("打印bindings的值"+x+"和value："+bindings.get(x)));
         }
     }
 
@@ -1658,13 +1665,13 @@ public class StateMachine {
     //有交集则认为是match
     private boolean slotMatch(Map<String, String> slotsNewSelect, Map<String, String> slotsCandicate) {
 
-        boolean Intersecting = true;
+        boolean Intersecting = false;
         for (String key : slotsCandicate.keySet()) {
             String valueNewSelect = slotsNewSelect.get(key);
             String valueCandicate = slotsCandicate.get(key);
 
-            if (valueNewSelect == null)
-                Intersecting = false;
+            if (valueNewSelect != null)
+                Intersecting = true;
 
             if ((valueCandicate != null && valueNewSelect != null
                     && !valueCandicate.equals("") && !valueNewSelect.equals("")
@@ -1724,9 +1731,30 @@ public class StateMachine {
             else if (!stateNode.getId().equals("开通") && !stateNode.getId().equals("咨询") && match(stateNode, sluResult))
                 matchedStateNode.add(new SLUResult(stateID, sluResult.score, sluResult.slots));
         }
+
         if (strictMatchedStateNode.size() != 0)
             return strictMatchedStateNode;
-        else return matchedStateNode;
+        else {
+            //增加对宽松match的处理
+            int maxscore=0;
+            Map<String,Integer> map=new HashMap<>();
+            for (SLUResult slu:matchedStateNode){
+                Map<String, String> stateNodeSlot = typeChange(model.stateNodeMap.get(slu.getStateId()).getSlots());
+                int score=0;
+                for(String slot:sluResult.slots.keySet()){
+                    String statevalue=stateNodeSlot.get(slot);
+                    String sluvalue=sluResult.slots.get(slot);
+                    if(statevalue!=null&&sluvalue!=null&&statevalue.equals(sluvalue))score++;
+                }
+                map.put(slu.getStateId(),score);
+                if(score>maxscore)maxscore=score;
+            }
+            matchedStateNode.clear();
+            for(String s:map.keySet()){
+                if(map.get(s)==maxscore)matchedStateNode.add(new SLUResult(s, sluResult.score, sluResult.slots));
+            }
+            return matchedStateNode;
+        }
     }
 
     private Map<String, String> typeChange(List<Slot> slots) {

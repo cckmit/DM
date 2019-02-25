@@ -87,6 +87,7 @@ public class DialogManager {
                 });
     }
 
+
     /**
      * description: 根据用户id，获取该用户的状态机
      * @Param: 根据用户id
@@ -214,8 +215,6 @@ public class DialogManager {
 
         sluResultPretreatEntity sluResultPretreatEntity = stateMachine.sluResultPretreat(userInput);
 
-
-
         if (sluResultPretreatEntity.getCommandInput().size() != 0 && stateMachine.determineNextCommand(sluResultPretreatEntity.getCommandInput()))
             return getSysAction(stateMachine);
 
@@ -226,6 +225,7 @@ public class DialogManager {
         }
 
         SLUResult determineSLU = stateMachine.determineNextState(sluResultPretreatEntity.getStateIDInput(),conflictReply);
+
         if(determineSLU!=null){
             stateMachine.setFinalSluResult(determineSLU);
             stateMachine.transitToStateWithData(determineSLU, telephoneNumber, true);

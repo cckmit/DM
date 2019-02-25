@@ -15,6 +15,7 @@ import exception.NoMatchConditionException;
 import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import util.OkHttpClientUtil;
 
 
 import javax.script.ScriptEngine;
@@ -160,19 +161,21 @@ public class APIStep extends Step{
 
     //POST提交Json数据
     public String post(String url, String json) throws Exception{
-        final OkHttpClient client = new OkHttpClient.Builder().connectTimeout(DialogManager.timeout, TimeUnit.MILLISECONDS)
-                .writeTimeout(DialogManager.timeout, TimeUnit.MILLISECONDS).readTimeout(DialogManager.timeout, TimeUnit.MILLISECONDS).build();
+//        final OkHttpClient client = new OkHttpClient.Builder().connectTimeout(DialogManager.timeout, TimeUnit.MILLISECONDS)
+//                .writeTimeout(DialogManager.timeout, TimeUnit.MILLISECONDS).readTimeout(DialogManager.timeout, TimeUnit.MILLISECONDS).build();
 
-        final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+//        final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         String resultStr="";
-        RequestBody body = RequestBody.create(JSON, json);
+//        RequestBody body = RequestBody.create(JSON, json);
+        RequestBody body = RequestBody.create(OkHttpClientUtil.getJSON(), json);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
         Response response = null;
         try {
-            response = client.newCall(request).execute();
+//            response = client.newCall(request).execute();
+            response = OkHttpClientUtil.getClientInstance().newCall(request).execute();
             if (response.isSuccessful()){
                 resultStr = response.body().string();
                 System.out.println(resultStr);

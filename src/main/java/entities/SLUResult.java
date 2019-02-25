@@ -11,9 +11,17 @@ import java.util.Map;
  */
 public class SLUResult {
 
-    public  String ruleName;
+    public  String ruleName="";
 
-    public String ruleType;    // stateID或者是command
+    public String ruleType="";    // stateID或者是command
+
+    public String getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(String stateId) {
+        this.stateId = stateId;
+    }
 
     public String stateId = "";
 
@@ -84,8 +92,11 @@ public class SLUResult {
             else if(this.ruleType.equals("command"))
                 command = ruleName;
         }else if (this.algorithmType.equals("neuralNetwork")){
-            if (this.ruleType.equals("命令"))
+            if (this.ruleType.equals("命令")){
                 command = target;
+                matchedAction = action;
+                matchedTarget = target;
+            }
             else if(this.ruleType.equals("业务"))
             {
                 if (action.equals("空"))
