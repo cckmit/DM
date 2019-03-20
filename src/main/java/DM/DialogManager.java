@@ -3,11 +3,10 @@ package DM;
 
 import ch.qos.logback.core.joran.conditional.ElseAction;
 import com.google.common.base.Joiner;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.google.common.cache.*;
 import entities.*;
 import entities.Process;
+import entities.step.ASRStep;
 import entities.step.ApiParamEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +77,8 @@ public class DialogManager {
         this.invalidateUponSessionEnded = invalidateUponSessionEnded;
         stateMachineCache = CacheBuilder
                 .newBuilder()
-                .expireAfterAccess(sessionTimeOutSec * 2, TimeUnit.SECONDS)
+                .expireAfterAccess(300, TimeUnit.SECONDS)
+                .removalListener(new RemoveListener())
                 .build(new CacheLoader<String, StateMachineWrapper>() {
                     public StateMachineWrapper load(String userid) {
                         logger.debug("Build state machine for " + userid);
@@ -307,6 +307,23 @@ public class DialogManager {
         return new StateMachineWrapper(System.currentTimeMillis(),
                 getNewStateMachine(userID));
     }
+    class RemoveListener implements RemovalListener<String,StateMachineWrapper> {
+        @Override
+        public void onRemoval(RemovalNotification<String, StateMachineWrapper> removalNotification) {
+            logger.info("释放"+removalNotification.getKey()+"的缓存");
+            //判断当前得线程是否被释放
+            try {
+                //中止线程
+                if (removalNotification.getValue().stateMachine.getCurrentStep() instanceof ASRStep){
+                    removalNotification.getValue().stateMachine.getProcessThread().interrupt();
+                }
 
+            }catch (Exception e){
+                logger.info("释放线程失败！"+e.getMessage());
+            }
+
+
+        }
+    }
 
 }
